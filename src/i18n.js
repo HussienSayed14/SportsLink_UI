@@ -6,21 +6,22 @@ import LanguageDetector from "i18next-browser-languagedetector";
 const resources = {
   en: {
     translation: {
-      title: "Hello, Tailwind Dark Mode!",
-      description: "Click the button to toggle between Light and Dark modes.",
-      toggle: "Toggle Dark Mode",
+      title: "Sa3a 5omasy",
+      signIn: "Sign In",
+      register: "Register",
+      heroBody: "Register",
     },
   },
   ar: {
     translation: {
-      title: "مرحبًا، وضع الظلام تيلويند!",
-      description: "اضغط على الزر للتبديل بين الوضع الفاتح والداكن.",
-      toggle: "تبديل الوضع الداكن",
+      title: "ساعة خماسى",
+      signIn: "تسجيل الدجول",
+      register: "مستجدم جديد",
+      heroBody: "مستجدم جديد",
     },
   },
 };
 
-// Initialize i18next
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -28,7 +29,11 @@ i18n
     resources,
     fallbackLng: "en", // Default language
     interpolation: {
-      escapeValue: false, // React already escapes by default
+      escapeValue: false, // React already escapes content
+    },
+    detection: {
+      order: ["localStorage", "navigator"], // Check localStorage first, then browser language
+      caches: ["localStorage"], // Persist language in localStorage
     },
   });
 

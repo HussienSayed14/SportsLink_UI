@@ -16,6 +16,7 @@ import {
   MoonIcon,
 } from "@heroicons/react/24/outline";
 import logo from "../assets/logo_transparent.png";
+import { useTranslation } from "react-i18next";
 
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
@@ -29,22 +30,12 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem("theme") === "dark";
-  });
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { t, i18n } = useTranslation();
 
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    if (isDarkMode) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    }
+  // Change language handler
+  const changeLanguage = (language) => {
+    i18n.changeLanguage(language);
   };
 
   return (
@@ -70,36 +61,42 @@ export default function NavBar() {
               <img alt="Logo" src={logo} className="h-10 w-auto sm:h-20" />
             </div>
             <div className="hidden sm:ml-6 sm:block">
-              <div className="flex space-x-4">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    aria-current={item.current ? "page" : undefined}
-                    className={classNames(
-                      item.current
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                      "rounded-md px-3 py-2 text-sm font-medium"
-                    )}
-                  >
-                    {item.name}
-                  </a>
-                ))}
-              </div>
+              {isAuthenticated ? (
+                <div className="flex space-x-4">
+                  {navigation.map((item) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      aria-current={item.current ? "page" : undefined}
+                      className={classNames(
+                        item.current
+                          ? "bg-gray-900 text-white"
+                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                        "rounded-md px-3 py-2 text-sm font-medium"
+                      )}
+                    >
+                      {item.name}
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <div></div>
+              )}
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            {/* Dark mode toggle */}
+            {/* Language Selector */}
             <button
-              onClick={toggleDarkMode}
-              className="rounded-full bg-gray-800 p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+              onClick={() => changeLanguage("en")}
+              className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
             >
-              {isDarkMode ? (
-                <SunIcon className="h-6 w-6 text-yellow-400" />
-              ) : (
-                <MoonIcon className="h-6 w-6 text-blue-400" />
-              )}
+              English
+            </button>
+            <button
+              onClick={() => changeLanguage("ar")}
+              className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            >
+              العربية
             </button>
 
             {isAuthenticated ? (
@@ -159,13 +156,13 @@ export default function NavBar() {
                   href="#sign-in"
                   className="rounded-md bg-gray-700 px-3 py-2 text-sm font-medium text-white hover:bg-gray-600"
                 >
-                  Sign In
+                  {t("signIn")}
                 </a>
                 <a
                   href="#register"
                   className="rounded-md bg-emerald-600  px-3 py-2 text-sm font-medium text-white hover:bg-emerald-800"
                 >
-                  Register
+                  {t("register")}
                 </a>
               </div>
             )}

@@ -1,48 +1,73 @@
-import React from "react";
-import logo from "../assets/logo_transparent.png";
-import logo2 from "../assets/logo_white_background.png";
+import {
+  FingerPrintIcon,
+  MagnifyingGlassIcon,
+  StarIcon,
+  HandThumbUpIcon,
+  CurrencyDollarIcon,
+} from "@heroicons/react/24/outline";
 
-const Hero = () => {
+const features = [
+  {
+    name: "Search Nearby Fields",
+    description:
+      "Find football fields near your location with advanced search filters.",
+    icon: MagnifyingGlassIcon,
+  },
+  {
+    name: "Rate Football Fields",
+    description:
+      "Share your experience and help others choose the best fields.",
+    icon: StarIcon,
+  },
+  {
+    name: "Follow Favorites",
+    description:
+      "Stay updated with schedules and events of your favorite fields.",
+    icon: HandThumbUpIcon,
+  },
+  {
+    name: "Score Big with Exclusive Offers!",
+    description:
+      "Enjoy your football experience while saving money with exclusive field discounts!",
+    icon: CurrencyDollarIcon,
+  },
+];
+
+export default function Hero() {
   return (
-    <div>
-      <section className="text-gray-600 body-font bg-white dark:bg-slate-900">
-        <div className="container mx-auto flex md:px-24 md:py-10 md:flex-row flex-col items-center">
-          <div className="lg:flex-grow mt-5 md:mt-0 md:w-1.5/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-            <h1 className="text-2xl font-extrabold leading-9 tracking-tight mb-3 text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-5xl md:leading-normal">
-              Title of Project
-            </h1>
-            <p className="mb-8 md:pl-0 pl-2 pr-2 leading-relaxed dark:text-gray-300">
-              Short description here, Short description here Short description
-              here Short description here Short description here Short
-              description here.
-            </p>
-            <div className="flex justify-center">
-              <a
-                href="#"
-                className="inline-flex text-white bg-emerald-600 border-0 py-2 px-6 focus:outline-none hover:bg-emerald-600 rounded text-lg"
-              >
-                Start Exploring
-              </a>
-              <a
-                href="#"
-                className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg"
-              >
-                Read articles
-              </a>
-            </div>
-          </div>
-          <div className="lg:max-w-lg lg:w-full mb-5 md:mb-0 md:w-1/2 w-3/6">
-            <img
-              className="object-cover object-center rounded"
-              alt="hero"
-              src={logo}
-              //   src="https://www.svgrepo.com/show/490900/hot-air-balloon.svg"
-            />
-          </div>
+    <div className="bg-white py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl lg:text-center">
+          <p className="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-balance">
+            Your Gateway to the Best Football Fields
+          </p>
+          <p className="mt-6 text-lg/8 text-gray-600">
+            Whether you're looking for nearby fields, exclusive deals, or a way
+            to rate and follow your favorites, Sa’a Khomasy is your all-in-one
+            solution for a better football experience.
+          </p>
         </div>
-      </section>
+        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+            {features.map((feature) => (
+              <div key={feature.name} className="relative pl-16">
+                <dt className="text-base/7 font-semibold text-gray-900">
+                  <div className="absolute left-0 top-0 flex size-10 items-center justify-center rounded-lg bg-indigo-600">
+                    <feature.icon
+                      aria-hidden="true"
+                      className="size-6 text-white"
+                    />
+                  </div>
+                  {feature.name}
+                </dt>
+                <dd className="mt-2 text-base/7 text-gray-600">
+                  {feature.description}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default Hero;
+}
