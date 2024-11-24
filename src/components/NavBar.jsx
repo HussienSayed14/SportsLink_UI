@@ -8,13 +8,7 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
-import {
-  Bars3Icon,
-  BellIcon,
-  XMarkIcon,
-  SunIcon,
-  MoonIcon,
-} from "@heroicons/react/24/outline";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "../assets/logo_transparent.png";
 import { useTranslation } from "react-i18next";
 
@@ -33,9 +27,10 @@ export default function NavBar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { t, i18n } = useTranslation();
 
-  // Change language handler
   const changeLanguage = (language) => {
     i18n.changeLanguage(language);
+    // document.body.dir = language === "ar" ? "rtl" : "ltr"; // Update text direction
+    localStorage.setItem("i18nextLng", language); // Persist language
   };
 
   return (

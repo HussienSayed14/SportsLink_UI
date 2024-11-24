@@ -9,15 +9,42 @@ const resources = {
       title: "Sa3a 5omasy",
       signIn: "Sign In",
       register: "Register",
-      heroBody: "Register",
+      heroBody:
+        "Whether you're looking for nearby fields, exclusive deals, or a way to rate and follow your favorites, Sa’a Khomasy is your all-in-one solution for a better football experience.",
+      heroTitle: "Your Gateway to the Best Football Fields",
+      function1Title: "Search Nearby Fields",
+      function1Description:
+        "Find football fields near your location with advanced search filters.",
+      function2Title: "Rate Football Fields",
+      function2Description:
+        "Share your experience and help others choose the best fields.",
+      function3Title: "Follow Favorites",
+      function3Description:
+        "Stay updated with schedules and events of your favorite fields.",
+      function4Title: "Score Big with Exclusive Offers!",
+      function4Description:
+        "Enjoy your football experience while saving money with exclusive field discounts!",
     },
   },
   ar: {
     translation: {
       title: "ساعة خماسى",
-      signIn: "تسجيل الدجول",
-      register: "مستجدم جديد",
-      heroBody: "مستجدم جديد",
+      signIn: "تسجيل الدخول",
+      register: "مستخدم جديد",
+      heroBody:
+        "سواء كنت تبحث عن ملاعب قريبة، عروض حصرية، أو طريقة لتقييم ومتابعة المفضلة لديك، ساعة خماسي هي الحل الشامل لتحسين تجربة كرة القدم الخاصة بك.",
+      heroTitle: "بوابتك إلى أفضل ملاعب كرة القدم",
+      function1Title: "ابحث عن الملاعب القريبة",
+      function1Description:
+        "ابحث عن ملاعب كرة القدم القريبة منك باستخدام مرشحات بحث متقدمة.",
+      function2Title: "قيم ملاعب كرة القدم",
+      function2Description: "شارك تجربتك وساعد الآخرين في اختيار أفضل الملاعب.",
+      function3Title: "تابع المفضلات",
+      function3Description:
+        "ابقَ على اطلاع بجدول المواعيد والأحداث لملاعبك المفضلة.",
+      function4Title: "وفر المزيد مع العروض الحصرية!",
+      function4Description:
+        "استمتع بتجربة كرة القدم الخاصة بك مع توفير المال باستخدام خصومات حصرية",
     },
   },
 };

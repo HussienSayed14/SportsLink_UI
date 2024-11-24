@@ -7,16 +7,9 @@ const axiosInstance = axios.create({
   },
 });
 
-// Add interceptors if needed
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+api.interceptors.request.use((config) => {
+  config.headers["Accept-Language"] = i18n.language || "en"; // Current language
+  return config;
+});
 
 export default axiosInstance;
