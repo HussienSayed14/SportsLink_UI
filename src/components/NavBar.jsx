@@ -12,8 +12,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "../assets/logo_transparent.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
+
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
   { name: "Team", href: "#", current: false },

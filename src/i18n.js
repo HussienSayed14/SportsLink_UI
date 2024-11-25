@@ -24,6 +24,15 @@ const resources = {
       function4Title: "Score Big with Exclusive Offers!",
       function4Description:
         "Enjoy your football experience while saving money with exclusive field discounts!",
+      loginTitle: "Sign in to your account",
+      forgotPassword: "Forgot Password?",
+      createNewAccount: "Create new Account",
+      phoneNumber: "Phone Number",
+      countryCode: "Country Code",
+      password: "Password",
+      notMember: "Not a member?",
+      signIn: "Sign In",
+      createAccount: "Create new Account",
     },
   },
   ar: {
@@ -45,6 +54,15 @@ const resources = {
       function4Title: "وفر المزيد مع العروض الحصرية!",
       function4Description:
         "استمتع بتجربة كرة القدم الخاصة بك مع توفير المال باستخدام خصومات حصرية",
+      loginTitle: "تسجيل الدخول إلى حسابك",
+      forgotPassword: "هل نسيت كلمة المرور؟",
+      createNewAccount: "إنشاء حساب جديد",
+      phoneNumber: "رقم الهاتف",
+      countryCode: "رمز الدولة",
+      password: "كلمة المرور",
+      notMember: "لست عضواً؟",
+      signIn: "تسجيل الدخول",
+      createAccount: "إنشاء حساب جديد",
     },
   },
 };
