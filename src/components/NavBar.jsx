@@ -11,7 +11,9 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "../assets/logo_transparent.png";
 import { useTranslation } from "react-i18next";
-
+import { Link } from "react-router";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
   { name: "Team", href: "#", current: false },
@@ -147,18 +149,18 @@ export default function NavBar() {
               </>
             ) : (
               <div className="flex space-x-4">
-                <a
-                  href="#sign-in"
+                <Link
+                  to="/login"
                   className="rounded-md bg-gray-700 px-3 py-2 text-sm font-medium text-white hover:bg-gray-600"
                 >
                   {t("signIn")}
-                </a>
-                <a
-                  href="#register"
+                </Link>
+                <Link
+                  to="/register"
                   className="rounded-md bg-emerald-600  px-3 py-2 text-sm font-medium text-white hover:bg-emerald-800"
                 >
                   {t("register")}
-                </a>
+                </Link>
               </div>
             )}
           </div>
