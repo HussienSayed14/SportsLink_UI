@@ -1,7 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+
 function Login() {
   const { t, i18n } = useTranslation();
+
+  const countryCodes = [
+    { name: "Egypt", code: "+20" },
+    { name: "United States", code: "+1" },
+    { name: "United Kingdom", code: "+44" },
+    // Add more country codes as needed
+  ];
+
+  const [selectedCountry, setSelectedCountry] = useState("+20"); // Default to Egypt
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
+  };
+
+  const handlePhoneChange = (event) => {
+    setPhoneNumber(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    alert(`Phone Number: ${selectedCountry} ${phoneNumber}`);
+    // Handle form submission
+  };
 
   return (
     <div>
@@ -18,22 +48,38 @@ function Login() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={handleSubmit} method="POST" className="space-y-6">
             <div>
               <label
-                htmlFor="email"
+                htmlFor="phone"
                 className="block text-sm/6 font-medium text-gray-900"
               >
                 {t("phoneNumber")}
               </label>
-              <div className="mt-2">
+              <div className="mt-2 flex">
+                {/* Country Code Dropdown */}
+                <select
+                  value={selectedCountry}
+                  onChange={handleCountryChange}
+                  className="border border-gray-300 rounded-l-md px-4 py-2 bg-gray-50 focus:outline-none focus:ring focus:ring-indigo-500"
+                >
+                  {countryCodes.map((country, index) => (
+                    <option key={index} value={country.code}>
+                      {country.name} ({country.code})
+                    </option>
+                  ))}
+                </select>
+
+                {/* Phone Number Input */}
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
+                  id="phone"
+                  name="phone"
+                  type="tel"
                   required
-                  autoComplete="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                  placeholder={t("enterPhoneNumber")}
+                  value={phoneNumber}
+                  onChange={handlePhoneChange}
+                  className="flex-1 border border-l-0 border-gray-300 rounded-r-md px-4 py-2 focus:outline-none focus:ring focus:ring-indigo-500"
                 />
               </div>
             </div>
@@ -61,7 +107,8 @@ function Login() {
                   name="password"
                   type="password"
                   required
-                  autoComplete="current-password"
+                  onChange={handlePasswordChange}
+                  value={password}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                 />
               </div>

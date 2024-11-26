@@ -33,6 +33,7 @@ const resources = {
       notMember: "Not a member?",
       signIn: "Sign In",
       createAccount: "Create new Account",
+      enterPhoneNumber: "Enter your phone number",
     },
   },
   ar: {
@@ -63,6 +64,7 @@ const resources = {
       notMember: "لست عضواً؟",
       signIn: "تسجيل الدخول",
       createAccount: "إنشاء حساب جديد",
+      enterPhoneNumber: "أدخل رقم هاتفك",
     },
   },
 };
