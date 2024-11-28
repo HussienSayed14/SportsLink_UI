@@ -1,6 +1,6 @@
 import axiosInstance from "../api/axiosInstance";
 
-const loginApiCall = async (phoneNumber, countryCode, password) => {
+const login = async (phoneNumber, countryCode, password) => {
   const response = await axiosInstance.post("/auth/login", {
     phoneNumber,
     countryCode,
@@ -9,7 +9,7 @@ const loginApiCall = async (phoneNumber, countryCode, password) => {
   return response.data;
 };
 
-const registerApiCall = async (phoneNumber, countryCode, password) => {
+const register = async (phoneNumber, countryCode, password) => {
   const response = await axiosInstance.post("/auth/login", {
     phoneNumber,
     countryCode,
@@ -19,7 +19,19 @@ const registerApiCall = async (phoneNumber, countryCode, password) => {
   return response.data;
 };
 
+// Fetch user details: Fetches the authenticated user's info
+export const getUserDetails = async () => {
+  const response = await axiosInstance.get("/auth/me");
+  return response.data;
+};
+
+// Logout function: Clears the user's session
+export const logout = async () => {
+  await axiosInstance.post("/auth/logout");
+};
+
 export default {
-  loginApiCall,
-  registerApiCall,
+  login,
+  register,
+  getUserDetails,
 };

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import authService from "../services/authService";
+import { useUser } from "../context/UserContext";
 
 function Login() {
   const { t, i18n } = useTranslation();
@@ -14,6 +16,8 @@ function Login() {
   const [selectedCountry, setSelectedCountry] = useState("+20"); // Default to Egypt
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const { setUser, setIsAuthenticated } = useUser(); // Access the user context
 
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
@@ -27,10 +31,29 @@ function Login() {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    alert(`Phone Number: ${selectedCountry} ${phoneNumber}`);
-    // Handle form submission
+    setError(null); // Reset error state
+
+    try {
+      // Call the login API
+      const userData = await authService.login({
+        phoneNumber,
+        selectedCountry,
+        password,
+      });
+
+      // Update the context with user details
+      setUser(userData);
+      setIsAuthenticated(true);
+
+      // Redirect to dashboard or another page
+      console.log("Login successful:", userData);
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Login failed. Please try again."
+      );
+    }
   };
 
   return (
