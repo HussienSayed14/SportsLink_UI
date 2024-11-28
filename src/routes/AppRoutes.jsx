@@ -16,9 +16,9 @@ const AppRoutes = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<Register />} />
 
-        <ProtectedRoute>
+        {/* <ProtectedRoute>
           <Route path="/dashboard" element={<Hero />} />
-        </ProtectedRoute>
+        </ProtectedRoute> */}
       </Routes>
     </Router>
   );

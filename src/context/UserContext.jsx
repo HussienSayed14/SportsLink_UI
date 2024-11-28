@@ -10,19 +10,21 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null); // Store user data
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Authentication status
   const [loading, setLoading] = useState(true); // Loading state for data fetching
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
 
   // Fetch user data on initial load
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = authService.getUserDetails();
+        const response = await authService.getUserDetails();
+        console.log("Resppp", response);
         setUser(response.data); // Save user data
         setIsAuthenticated(true); // Set authenticated
       } catch (error) {
+        console.log("errr", error);
         console.error("Error fetching user data:", error);
         setIsAuthenticated(false); // Set unauthenticated
-        navigate("/");
+        // navigate("/");
       } finally {
         setLoading(false); // Loading complete
       }

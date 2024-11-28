@@ -12,6 +12,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "../assets/logo_transparent.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
+import { useUser } from "../context/UserContext";
 
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
@@ -25,7 +26,7 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated } = useUser();
   const { t, i18n } = useTranslation();
 
   const changeLanguage = (language) => {

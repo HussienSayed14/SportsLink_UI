@@ -10,13 +10,16 @@ const axiosInstance = axios.create({
 // Add request interceptor for common headers
 axiosInstance.interceptors.request.use(
   (config) => {
-    config.headers["Accept-Language"] = i18n.language || "en"; // Add language header
+    // Retrieve language from localStorage
+    const language = localStorage.getItem("i18nextLng") || "en"; // Default to "en" if not set
+    config.headers["Accept-Language"] = language; // Set Accept-Language header
     return config;
   },
   (error) => {
     return Promise.reject(error);
   }
 );
+
 // Add response interceptor for error handling
 axiosInstance.interceptors.response.use(
   (response) => response,
