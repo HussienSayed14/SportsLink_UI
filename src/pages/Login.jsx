@@ -37,19 +37,26 @@ function Login() {
 
     try {
       // Call the login API
-      const userData = await authService.login({
+      const response = await authService.login(
         phoneNumber,
         selectedCountry,
-        password,
-      });
+        password
+      );
 
-      // Update the context with user details
-      setUser(userData);
-      setIsAuthenticated(true);
+      if (response.status != 200 || response.select != 201) {
+        console.log("Login Failed");
+        return;
+        // Add More Logic
+      }
 
       // Redirect to dashboard or another page
       console.log("Login successful:", userData);
+
+      // Update the context with user details
+      setUser(response.data);
+      setIsAuthenticated(true);
     } catch (err) {
+      console.log("errr: ", err);
       setError(
         err.response?.data?.message || "Login failed. Please try again."
       );
@@ -97,7 +104,7 @@ function Login() {
                 <input
                   id="phone"
                   name="phone"
-                  type="tel"
+                  type="text"
                   required
                   placeholder={t("enterPhoneNumber")}
                   value={phoneNumber}

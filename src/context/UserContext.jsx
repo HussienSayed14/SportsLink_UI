@@ -13,23 +13,23 @@ export const UserProvider = ({ children }) => {
   //   const navigate = useNavigate();
 
   // Fetch user data on initial load
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await authService.getUserDetails();
-        setUser(response.data); // Save user data
-        setIsAuthenticated(true); // Set authenticated
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        setIsAuthenticated(false); // Set unauthenticated
-        return <Navigate to="/" />; // Redirect unauthenticated users
-      } finally {
-        setLoading(false); // Loading complete
-      }
-    };
+  //   useEffect(() => {
+  //     const fetchUser = async () => {
+  //       try {
+  //         const response = await authService.getUserDetails();
+  //         setUser(response.data); // Save user data
+  //         setIsAuthenticated(true); // Set authenticated
+  //       } catch (error) {
+  //         console.error("Error fetching user data:", error);
+  //         setIsAuthenticated(false); // Set unauthenticated
+  //         return <Navigate to="/" />; // Redirect unauthenticated users
+  //       } finally {
+  //         setLoading(false); // Loading complete
+  //       }
+  //     };
 
-    fetchUser();
-  }, []);
+  //     fetchUser();
+  //   }, []);
 
   return (
     <UserContext.Provider

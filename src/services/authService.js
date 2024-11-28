@@ -1,12 +1,20 @@
 import axiosInstance from "../api/axiosInstance";
 
 const login = async (phone, countryCode, password) => {
-  const response = await axiosInstance.post("/userAuth/login", {
-    phone,
-    countryCode,
-    password,
-  });
-  return response.data;
+  try {
+    const payload = {
+      phone,
+      countryCode,
+      password,
+    };
+    console.log("Payload: ", payload);
+    const response = await axiosInstance.post("/userAuth/login", payload);
+    console.log("Login Response: ", response);
+    return response;
+  } catch (err) {
+    console.log("Err 12: ", err.response);
+    return err.response;
+  }
 };
 
 const register = async (phone, countryCode, password) => {

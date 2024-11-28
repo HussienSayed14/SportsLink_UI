@@ -15,8 +15,6 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<Register />} />
-
-        {/* Protect the dashboard route */}
         <Route
           path="/dashboard"
           element={
