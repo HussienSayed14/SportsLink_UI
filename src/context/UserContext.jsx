@@ -17,11 +17,9 @@ export const UserProvider = ({ children }) => {
     const fetchUser = async () => {
       try {
         const response = await authService.getUserDetails();
-        console.log("Resppp", response);
         setUser(response.data); // Save user data
         setIsAuthenticated(true); // Set authenticated
       } catch (error) {
-        console.log("errr", error);
         console.error("Error fetching user data:", error);
         setIsAuthenticated(false); // Set unauthenticated
         return <Navigate to="/" />; // Redirect unauthenticated users
