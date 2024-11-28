@@ -1,17 +1,17 @@
 import axiosInstance from "../api/axiosInstance";
 
-const login = async (phoneNumber, countryCode, password) => {
-  const response = await axiosInstance.post("/auth/login", {
-    phoneNumber,
+const login = async (phone, countryCode, password) => {
+  const response = await axiosInstance.post("/userAuth/login", {
+    phone,
     countryCode,
     password,
   });
   return response.data;
 };
 
-const register = async (phoneNumber, countryCode, password) => {
-  const response = await axiosInstance.post("/auth/login", {
-    phoneNumber,
+const register = async (phone, countryCode, password) => {
+  const response = await axiosInstance.post("/userAuth/register", {
+    phone,
     countryCode,
     password,
   });
