@@ -4,6 +4,8 @@ import Hero from "../pages/Hero";
 import NavBar from "../components/NavBar";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import ProtectedRoute from "./ProtectedRoute";
+
 const AppRoutes = () => {
   return (
     <Router>
@@ -12,6 +14,11 @@ const AppRoutes = () => {
         <Route path="/" element={<Hero />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<Register />} />
+
+        <ProtectedRoute>
+          <Route path="/dashboard" element={<Hero />} />
+        </ProtectedRoute>
       </Routes>
     </Router>
   );
