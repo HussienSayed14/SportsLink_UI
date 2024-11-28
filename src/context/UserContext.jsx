@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import authService from "../services/authService";
-import { useNavigate } from "react-router";
+import { Navigate } from "react-router";
 
 const UserContext = createContext(null);
 
@@ -24,7 +24,7 @@ export const UserProvider = ({ children }) => {
         console.log("errr", error);
         console.error("Error fetching user data:", error);
         setIsAuthenticated(false); // Set unauthenticated
-        // navigate("/");
+        return <Navigate to="/" />; // Redirect unauthenticated users
       } finally {
         setLoading(false); // Loading complete
       }

@@ -16,9 +16,15 @@ const AppRoutes = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<Register />} />
 
-        {/* <ProtectedRoute>
-          <Route path="/dashboard" element={<Hero />} />
-        </ProtectedRoute> */}
+        {/* Protect the dashboard route */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Hero />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );
