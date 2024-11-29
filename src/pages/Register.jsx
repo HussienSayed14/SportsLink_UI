@@ -6,7 +6,7 @@ function Register() {
   const { t } = useTranslation();
 
   const countryCodes = [
-    { name: "Egypt", code: "+20" },
+    { name: "(مصر) Egypt", code: "+20" },
     { name: "United States", code: "+1" },
     { name: "United Kingdom", code: "+44" },
     // Add more country codes as needed
@@ -17,7 +17,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("USER"); // Default role
+  const [role, setRole] = useState("ROLE_`USER"); // Default role
   const [error, setError] = useState(null);
 
   const handleCountryChange = (event) => {
