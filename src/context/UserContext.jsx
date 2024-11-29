@@ -9,7 +9,7 @@ export const useUser = () => useContext(UserContext);
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null); // Store user data
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Authentication status
-  const [loading, setLoading] = useState(true); // Loading state for data fetching
+  const [loading, setLoading] = useState(false); // Loading state for data fetching
   //   const navigate = useNavigate();
 
   // Fetch user data on initial load
@@ -33,7 +33,14 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, setUser, isAuthenticated, setIsAuthenticated, loading }}
+      value={{
+        user,
+        setUser,
+        isAuthenticated,
+        setIsAuthenticated,
+        loading,
+        setLoading,
+      }}
     >
       {children}
     </UserContext.Provider>

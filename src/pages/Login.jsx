@@ -17,7 +17,7 @@ function Login() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { setUser, setIsAuthenticated } = useUser(); // Access the user context
+  const { setUser, setIsAuthenticated, setLoading } = useUser(); // Access the user context
 
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
@@ -33,7 +33,8 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(null); // Reset error state
+    setLoading(true);
+    setError(null);
 
     try {
       // Call the login API
@@ -60,6 +61,8 @@ function Login() {
       setError(
         err.response?.data?.message || "Login failed. Please try again."
       );
+    } finally {
+      setLoading(false);
     }
   };
 
