@@ -5,7 +5,7 @@ import NavBar from "../components/NavBar";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ProtectedRoute from "./ProtectedRoute";
-
+import VerifyUser from "../pages/VerifyUser";
 const AppRoutes = () => {
   return (
     <Router>
@@ -15,6 +15,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<Register />} />
+        <Route path="/verify" element={<VerifyUser />} />
         <Route
           path="/dashboard"
           element={

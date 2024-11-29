@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import authService from "../services/authService";
+import { useNavigate } from "react-router";
 
 function Register() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const countryCodes = [
     { name: "(مصر) Egypt", code: "+20" },
@@ -17,7 +19,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("ROLE_`USER"); // Default role
+  const [role, setRole] = useState("ROLE_USER"); // Default role
   const [error, setError] = useState(null);
 
   const handleCountryChange = (event) => {
@@ -59,7 +61,7 @@ function Register() {
 
       if (response.status === 201 || response.status === 200) {
         console.log("Registration successful:", response.data);
-        // Redirect to login page or another page
+        navigate("/verify", { state: response.data });
       } else {
         console.error("Registration failed:", response.data);
       }

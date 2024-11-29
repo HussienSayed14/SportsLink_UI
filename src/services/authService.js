@@ -29,6 +29,18 @@ const register = async (payload) => {
   }
 };
 
+const verifyUser = async (payload) => {
+  try {
+    console.log("Payload: ", payload);
+    const response = await axiosInstance.post("/userAuth/verifyUser", payload);
+    console.log("Verify User Response: ", response);
+    return response;
+  } catch (err) {
+    console.log("Err 12: ", err.response);
+    return err.response;
+  }
+};
+
 // Fetch user details: Fetches the authenticated user's info
 export const getUserDetails = async () => {
   const response = await axiosInstance.get("/auth/me");
@@ -44,4 +56,5 @@ export default {
   login,
   register,
   getUserDetails,
+  verifyUser,
 };
