@@ -12,11 +12,6 @@ function Register() {
     // Add more country codes as needed
   ];
 
-  const roles = [
-    { name: t("userRole"), value: "USER" },
-    { name: t("adminRole"), value: "ADMIN" },
-  ];
-
   const [selectedCountry, setSelectedCountry] = useState("+20"); // Default to Egypt
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -45,10 +40,6 @@ function Register() {
     setEmail(event.target.value);
   };
 
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError(null); // Reset error state
@@ -66,7 +57,7 @@ function Register() {
 
       const response = await authService.register(payload);
 
-      if (response.status === 201) {
+      if (response.status === 201 || response.status === 200) {
         console.log("Registration successful:", response.data);
         // Redirect to login page or another page
       } else {
@@ -191,30 +182,6 @@ function Register() {
                   placeholder={t("enterPassword")}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                 />
-              </div>
-            </div>
-
-            {/* Role */}
-            <div>
-              <label
-                htmlFor="role"
-                className="block text-sm/6 font-medium text-gray-900"
-              >
-                {t("role")}
-              </label>
-              <div className="mt-2">
-                <select
-                  id="role"
-                  value={role}
-                  onChange={handleRoleChange}
-                  className="block w-full rounded-md border border-gray-300 px-4 py-2 bg-gray-50 focus:outline-none focus:ring focus:ring-indigo-500"
-                >
-                  {roles.map((r, index) => (
-                    <option key={index} value={r.value}>
-                      {r.name}
-                    </option>
-                  ))}
-                </select>
               </div>
             </div>
 

@@ -34,6 +34,9 @@ const resources = {
       signIn: "Sign In",
       createAccount: "Create new Account",
       enterPhoneNumber: "Enter your phone number",
+      registerTitle: "Register New User",
+      fullName: "Full Name",
+      enterFullName: "Enter your Full Name",
     },
   },
   ar: {
@@ -65,6 +68,9 @@ const resources = {
       signIn: "تسجيل الدخول",
       createAccount: "إنشاء حساب جديد",
       enterPhoneNumber: "أدخل رقم هاتفك",
+      registerTitle: "تسجيل مستخدم جديد",
+      fullName: "الاسم الكامل",
+      enterFullName: "ادخل اسمك الكامل",
     },
   },
 };
