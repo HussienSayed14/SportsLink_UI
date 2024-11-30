@@ -47,29 +47,28 @@ function ResetPassword() {
     event.preventDefault();
     setError(null); // Reset error state
 
-    const passwordError = inputValidation.validatePassword(password, t);
-    const passwordConfirmationError = inputValidation.validatePassword(
-      confirmPassword,
-      t
-    );
-    const passwordMatchError = inputValidation.validatePasswordMatch(
-      password,
-      confirmPassword,
-      t
-    );
-
-    if ((passwordError || passwordConfirmationError, passwordMatchError)) {
-      setErrors({
-        passwordMatch: passwordMatchError,
-        password: passwordError,
-        confirmPassword: passwordConfirmationError,
-      });
-      return;
-    }
-
-    setErrors({});
-
     try {
+      const passwordError = inputValidation.validatePassword(password, t);
+      const passwordConfirmationError = inputValidation.validatePassword(
+        confirmPassword,
+        t
+      );
+      const passwordMatchError = inputValidation.validatePasswordMatch(
+        password,
+        confirmPassword,
+        t
+      );
+
+      if ((passwordError || passwordConfirmationError, passwordMatchError)) {
+        setErrors({
+          passwordMatch: passwordMatchError,
+          password: passwordError,
+          confirmPassword: passwordConfirmationError,
+        });
+        return;
+      }
+
+      setErrors({});
       setLoading(true);
       const payload = {
         userId,

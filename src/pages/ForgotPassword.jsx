@@ -126,10 +126,10 @@ function ForgotPassword() {
                       placeholder={t("enterPhoneNumber")}
                       className="flex-1 border border-l-0 border-gray-300 rounded-r-md px-4 py-2 focus:outline-none focus:ring focus:ring-indigo-500"
                     />
-                    {errors.phoneNumber && (
-                      <p className="text-red-500">{errors.phoneNumber}</p>
-                    )}
                   </div>
+                  {errors.phoneNumber && (
+                    <p className="text-red-500">{errors.phoneNumber}</p>
+                  )}
                 </div>
 
                 <div className="flex flex-col space-y-5">

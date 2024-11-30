@@ -4,6 +4,7 @@ import authService from "../services/authService";
 import { useUser } from "../context/UserContext";
 import { useNavigate } from "react-router";
 import inputValidation from "../utils/inputValidation";
+import AlertError from "../components/AlertError";
 
 function Login() {
   const { t, i18n } = useTranslation();
@@ -21,6 +22,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState({});
+  const [showAlert, setShowAlert] = useState(false);
 
   const { setUser, setIsAuthenticated, setLoading } = useUser(); // Access the user context
 
@@ -41,44 +43,40 @@ function Login() {
     setLoading(true);
     setError(null);
 
-    // Validate phone number & Password
-    const phoneNumberError = inputValidation.validatePhoneNumber(
-      phoneNumber,
-      t
-    );
-    const passwordError = inputValidation.validatePassword(password, t);
-
-    if (phoneNumberError || passwordError) {
-      setErrors({ phoneNumber: phoneNumberError, password: passwordError });
-      return;
-    }
-
-    setErrors({});
-
     try {
+      // Validate phone number & Password
+      const phoneNumberError = inputValidation.validatePhoneNumber(
+        phoneNumber,
+        t
+      );
+      const passwordError = inputValidation.validatePassword(password, t);
+
+      if (phoneNumberError || passwordError) {
+        setErrors({ phoneNumber: phoneNumberError, password: passwordError });
+        return;
+      }
+
+      setErrors({});
       const response = await authService.login(
         phoneNumber,
         selectedCountry,
         password
       );
 
-      if (response.status != 200 || response.select != 201) {
-        console.log("Login Failed");
-        return;
-        // Add More Logic
+      if (response.status === 201 || response.status === 200) {
+        console.log("Verififcation Successful successful:", response.data);
+        // Update the context with user details
+        setUser(response.data);
+        setIsAuthenticated(true);
+
+        navigate("/dashboard");
+      } else {
+        setError(response?.data?.message || "Login failed. Please try again.");
+        setShowAlert(true);
       }
-
-      // Redirect to dashboard or another page
-      console.log("Login successful:", userData);
-
-      // Update the context with user details
-      setUser(response.data);
-      setIsAuthenticated(true);
     } catch (err) {
-      console.log("errr: ", err);
-      setError(
-        err.response?.data?.message || "Login failed. Please try again."
-      );
+      console.error(err);
+      setError(err);
     } finally {
       setLoading(false);
     }
@@ -132,10 +130,10 @@ function Login() {
                   onChange={handlePhoneChange}
                   className="flex-1 border border-l-0 border-gray-300 rounded-r-md px-4 py-2 focus:outline-none focus:ring focus:ring-indigo-500"
                 />
-                {errors.phoneNumber && (
-                  <p className="text-red-500">{errors.phoneNumber}</p>
-                )}
               </div>
+              {errors.phoneNumber && (
+                <p className="text-red-500">{errors.phoneNumber}</p>
+              )}
             </div>
 
             <div>
@@ -148,7 +146,7 @@ function Login() {
                 </label>
                 <div className="text-sm">
                   <a
-                    onClick={navigate("/forgot-password")}
+                    onClick={() => navigate("/forgot-password")}
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     {t("forgotPassword")}
@@ -165,10 +163,10 @@ function Login() {
                   value={password}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                 />
-                {errors.password && (
-                  <p className="text-red-500">{errors.password}</p>
-                )}
               </div>
+              {errors.password && (
+                <p className="text-red-500">{errors.password}</p>
+              )}
             </div>
 
             <div>
@@ -192,6 +190,9 @@ function Login() {
           </p>
         </div>
       </div>
+      {showAlert && (
+        <AlertError message={error} onClose={() => setShowAlert(false)} />
+      )}
     </div>
   );
 }
