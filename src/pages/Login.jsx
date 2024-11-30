@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import authService from "../services/authService";
 import { useUser } from "../context/UserContext";
 import { useNavigate } from "react-router";
+import inputValidation from "../utils/inputValidation";
 
 function Login() {
   const { t, i18n } = useTranslation();
@@ -19,6 +20,8 @@ function Login() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [errors, setErrors] = useState({});
+
   const { setUser, setIsAuthenticated, setLoading } = useUser(); // Access the user context
 
   const handleCountryChange = (event) => {
@@ -38,8 +41,21 @@ function Login() {
     setLoading(true);
     setError(null);
 
+    // Validate phone number & Password
+    const phoneNumberError = inputValidation.validatePhoneNumber(
+      phoneNumber,
+      t
+    );
+    const passwordError = inputValidation.validatePassword(password, t);
+
+    if (phoneNumberError || passwordError) {
+      setErrors({ phoneNumber: phoneNumberError, password: passwordError });
+      return;
+    }
+
+    setErrors({});
+
     try {
-      // Call the login API
       const response = await authService.login(
         phoneNumber,
         selectedCountry,
@@ -116,6 +132,9 @@ function Login() {
                   onChange={handlePhoneChange}
                   className="flex-1 border border-l-0 border-gray-300 rounded-r-md px-4 py-2 focus:outline-none focus:ring focus:ring-indigo-500"
                 />
+                {errors.phoneNumber && (
+                  <p className="text-red-500">{errors.phoneNumber}</p>
+                )}
               </div>
             </div>
 
@@ -146,6 +165,9 @@ function Login() {
                   value={password}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                 />
+                {errors.password && (
+                  <p className="text-red-500">{errors.password}</p>
+                )}
               </div>
             </div>
 
@@ -162,7 +184,7 @@ function Login() {
           <p className="mt-10 text-center text-sm/6 text-gray-500">
             {t("notMember")}{" "}
             <a
-              onClick={navigate("/register")}
+              onClick={() => navigate("/register")}
               className="font-semibold text-indigo-600 hover:text-indigo-500"
             >
               {t("createAccount")}

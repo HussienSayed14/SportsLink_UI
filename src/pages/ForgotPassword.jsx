@@ -5,11 +5,14 @@ import authService from "../services/authService";
 import AlertError from "../components/AlertError";
 import AlertSuccess from "../components/AlertSuccess";
 import { useUser } from "../context/UserContext";
+import inputValidation from "../utils/inputValidation";
 
 function ForgotPassword() {
   const { t } = useTranslation();
 
   const [error, setError] = useState(null);
+  const [errors, setErrors] = useState({});
+
   const [responeMessage, setResponseMessage] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
@@ -38,6 +41,20 @@ function ForgotPassword() {
 
     try {
       setLoading(true);
+
+      // Validate phone number
+      const phoneNumberError = inputValidation.validatePhoneNumber(
+        phoneNumber,
+        t
+      );
+
+      if (phoneNumberError) {
+        setErrors({ phoneNumber: phoneNumberError });
+        return;
+      }
+
+      setErrors({});
+
       const payload = {
         phoneNumber,
         countryCode: selectedCountry,
@@ -109,6 +126,9 @@ function ForgotPassword() {
                       placeholder={t("enterPhoneNumber")}
                       className="flex-1 border border-l-0 border-gray-300 rounded-r-md px-4 py-2 focus:outline-none focus:ring focus:ring-indigo-500"
                     />
+                    {errors.phoneNumber && (
+                      <p className="text-red-500">{errors.phoneNumber}</p>
+                    )}
                   </div>
                 </div>
 

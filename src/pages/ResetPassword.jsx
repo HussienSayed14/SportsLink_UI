@@ -7,6 +7,7 @@ import AlertError from "../components/AlertError";
 import AlertSuccess from "../components/AlertSuccess";
 import { useUser } from "../context/UserContext";
 import { useLocation } from "react-router";
+import inputValidation from "../utils/inputValidation";
 
 function ResetPassword() {
   const { t } = useTranslation();
@@ -19,6 +20,7 @@ function ResetPassword() {
   const token = queryParams.get("token");
 
   const [error, setError] = useState(null);
+  const [errors, setErrors] = useState({});
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
   const { setLoading } = useUser(); // Access the user context
@@ -35,9 +37,37 @@ function ResetPassword() {
     setConfirmPassword(event.target.value);
   };
 
+  if (!userId || !token) {
+    console.error("Missing userId or token in the URL!");
+    navigate("/");
+    return;
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError(null); // Reset error state
+
+    const passwordError = inputValidation.validatePassword(password, t);
+    const passwordConfirmationError = inputValidation.validatePassword(
+      confirmPassword,
+      t
+    );
+    const passwordMatchError = inputValidation.validatePasswordMatch(
+      password,
+      confirmPassword,
+      t
+    );
+
+    if ((passwordError || passwordConfirmationError, passwordMatchError)) {
+      setErrors({
+        passwordMatch: passwordMatchError,
+        password: passwordError,
+        confirmPassword: passwordConfirmationError,
+      });
+      return;
+    }
+
+    setErrors({});
 
     try {
       setLoading(true);
@@ -99,6 +129,9 @@ function ResetPassword() {
               value={password}
               required
             />
+            {errors.password && (
+              <p className="text-red-500">{errors.password}</p>
+            )}
           </div>
           <div className="mb-6">
             <label
@@ -116,6 +149,12 @@ function ResetPassword() {
               value={confirmPassword}
               required
             />
+            {errors.confirmPassword && (
+              <p className="text-red-500">{errors.confirmPassword}</p>
+            )}
+            {errors.passwordMatch && (
+              <p className="text-red-500">{errors.passwordMatch}</p>
+            )}
           </div>
           <div className="flex items-center justify-between">
             <button
