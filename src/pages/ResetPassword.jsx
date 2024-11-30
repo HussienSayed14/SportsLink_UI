@@ -11,6 +11,7 @@ import { useLocation } from "react-router";
 function ResetPassword() {
   const { t } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate;
 
   // Parse the query parameters
   const queryParams = new URLSearchParams(location.search);
@@ -50,6 +51,7 @@ function ResetPassword() {
       if (response.status === 201 || response.status === 200) {
         console.log("Verififcation Successful successful:", response.data);
         setShowAlertSuccess(true);
+        navigate("/login");
       } else {
         setError(
           response?.data?.message || "Verification failed. Please try again."
