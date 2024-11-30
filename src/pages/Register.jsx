@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import authService from "../services/authService";
 import { useNavigate } from "react-router";
+import AlertError from "../components/AlertError";
+import AlertSuccess from "../components/AlertSuccess";
 
 function Register() {
   const { t } = useTranslation();
@@ -21,6 +23,9 @@ function Register() {
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("ROLE_USER"); // Default role
   const [error, setError] = useState(null);
+  const [errors, setErrors] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showAlertSuccess, setShowAlertSuccess] = useState(false);
 
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
@@ -61,15 +66,20 @@ function Register() {
 
       if (response.status === 201 || response.status === 200) {
         console.log("Registration successful:", response.data);
-        navigate("/verify", { state: response.data });
+        setResponseMessage(responeMessage?.data?.message);
+        setShowAlertSuccess(true);
+        setTimeout(() => {
+          navigate("/verify", { state: response.data });
+        }, 3000);
       } else {
         console.error("Registration failed:", response.data);
+        setError(
+          response?.data?.message || "Verification failed. Please try again."
+        );
+        setShowAlert(true);
       }
     } catch (err) {
       console.error("Error:", err);
-      setError(
-        err.response?.data?.message || "Registration failed. Please try again."
-      );
     }
   };
 
@@ -205,6 +215,15 @@ function Register() {
           )}
         </div>
       </div>
+      {showAlert && (
+        <AlertError message={error} onClose={() => setShowAlert(false)} />
+      )}
+      {showAlertSuccess && (
+        <AlertSuccess
+          message={responeMessage}
+          onClose={() => setShowAlertSuccess(false)}
+        />
+      )}
     </div>
   );
 }

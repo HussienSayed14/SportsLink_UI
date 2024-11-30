@@ -77,14 +77,14 @@ const resetPassword = async (payload) => {
     console.log("Forgot Password Response: ", response);
     return response;
   } catch (err) {
-    console.log("Err 12: ", err.response);
+    console.error(err);
     return err.response;
   }
 };
 
 // Fetch user details: Fetches the authenticated user's info
 const getUserDetails = async () => {
-  const response = await axiosInstance.get("/auth/me");
+  const response = await axiosInstance.get("/user/getDetails");
   return response.data;
 };
 
