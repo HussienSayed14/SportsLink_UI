@@ -64,9 +64,9 @@ function Login() {
       );
 
       if (response.status === 201 || response.status === 200) {
-        console.log("Verififcation Successful successful:", response.data);
+        console.log("Login Rsponse: ", response);
         // Update the context with user details
-        setUser(response.data);
+        setUser(response.data.userDetails);
         setIsAuthenticated(true);
 
         navigate("/dashboard");

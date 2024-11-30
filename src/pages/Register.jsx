@@ -4,6 +4,7 @@ import authService from "../services/authService";
 import { useNavigate } from "react-router";
 import AlertError from "../components/AlertError";
 import AlertSuccess from "../components/AlertSuccess";
+import { useUser } from "../context/UserContext";
 
 function Register() {
   const { t } = useTranslation();
@@ -26,6 +27,8 @@ function Register() {
   const [errors, setErrors] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
+  const { setLoading } = useUser(); // Access the user context
+  const [responeMessage, setResponseMessage] = useState(null);
 
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
@@ -52,6 +55,7 @@ function Register() {
     setError(null); // Reset error state
 
     try {
+      setLoading(true);
       // Call the register API
       const payload = {
         phoneNumber,
@@ -80,6 +84,8 @@ function Register() {
       }
     } catch (err) {
       console.error("Error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
