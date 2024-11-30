@@ -6,30 +6,31 @@ import authService from "../services/authService";
 import AlertError from "../components/AlertError";
 import AlertSuccess from "../components/AlertSuccess";
 import { useUser } from "../context/UserContext";
+import { useLocation } from "react-router";
 
 function ResetPassword() {
   const { t } = useTranslation();
+  const location = useLocation();
+
+  // Parse the query parameters
+  const queryParams = new URLSearchParams(location.search);
+  const userId = queryParams.get("id");
+  const token = queryParams.get("token");
 
   const [error, setError] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
   const { setLoading } = useUser(); // Access the user context
 
-  const countryCodes = [
-    { name: "(مصر) Egypt", code: "+20" },
-    { name: "United States", code: "+1" },
-    { name: "United Kingdom", code: "+44" },
-  ];
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [selectedCountry, setSelectedCountry] = useState("+20"); // Default to Egypt
-  const [phoneNumber, setPhoneNumber] = useState("");
-
-  const handleCountryChange = (event) => {
-    setSelectedCountry(event.target.value);
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
   };
 
-  const handlePhoneChange = (event) => {
-    setPhoneNumber(event.target.value);
+  const handleConfirmPasswordChange = (event) => {
+    setConfirmPassword(event.target.value);
   };
 
   const handleSubmit = async (event) => {
@@ -39,11 +40,12 @@ function ResetPassword() {
     try {
       setLoading(true);
       const payload = {
-        phoneNumber,
-        countryCode: selectedCountry,
+        userId,
+        token,
+        password,
       };
 
-      const response = await authService.forgotPasswordRequest(payload);
+      const response = await authService.resetPassword(payload);
 
       if (response.status === 201 || response.status === 200) {
         console.log("Verififcation Successful successful:", response.data);
@@ -66,76 +68,62 @@ function ResetPassword() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-12">
-      <div className="relative bg-white px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
-        <div className="mx-auto flex w-full max-w-md flex-col space-y-16">
-          <div className="flex flex-col items-center justify-center text-center space-y-2">
-            <div className="font-semibold text-3xl">
-              <p>{t("forgotPasswordTitle")}</p>
-            </div>
-          </div>
-
-          <div>
-            <form action="" method="post">
-              <div className="flex flex-col space-y-16">
-                {/* Country Code and Phone Number */}
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-sm/6 font-medium text-gray-900"
-                  >
-                    {t("phoneNumber")}
-                  </label>
-                  <div className="mt-2 flex">
-                    <select
-                      value={selectedCountry}
-                      onChange={handleCountryChange}
-                      className="border border-gray-300 rounded-l-md px-4 py-2 bg-gray-50 focus:outline-none focus:ring focus:ring-indigo-500"
-                    >
-                      {countryCodes.map((country, index) => (
-                        <option key={index} value={country.code}>
-                          {country.name} ({country.code})
-                        </option>
-                      ))}
-                    </select>
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="text"
-                      required
-                      value={phoneNumber}
-                      onChange={handlePhoneChange}
-                      placeholder={t("enterPhoneNumber")}
-                      className="flex-1 border border-l-0 border-gray-300 rounded-r-md px-4 py-2 focus:outline-none focus:ring focus:ring-indigo-500"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex flex-col space-y-5">
-                  <div>
-                    <button
-                      className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm"
-                      type="button"
-                      onClick={handleSubmit}
-                    >
-                      {t("submit")}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
+    <div className="flex flex-wrap justify-center items-center min-h-screen bg-indigo-50">
+      <div className="w-full max-w-md mx-auto ">
+        <div className="text-center mb-10 flex flex-col items-center justify-center">
+          <h1 className="text-xl font-semibold mb-2">Reset Your Password</h1>
+          <p className="text-gray-600">
+            Enter your new password below to regain access to your account.
+          </p>
         </div>
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        >
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="newPassword"
+            >
+              New Password
+            </label>
+            <input
+              type="password"
+              name="newPassword"
+              id="newPassword"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={handlePasswordChange}
+              value={password}
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="confirmNewPassword"
+            >
+              Confirm New Password
+            </label>
+            <input
+              type="password"
+              name="confirmNewPassword"
+              id="confirmNewPassword"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={handleConfirmPasswordChange}
+              value={confirmPassword}
+              required
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
-      {showAlert && (
-        <AlertError message={error} onClose={() => setShowAlert(false)} />
-      )}
-      {showAlertSuccess && (
-        <AlertSuccess
-          message={t("userVirefied")}
-          onClose={() => setShowAlertSuccess(false)}
-        />
-      )}
     </div>
   );
 }
