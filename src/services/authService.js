@@ -41,6 +41,47 @@ const verifyUser = async (payload) => {
   }
 };
 
+const resendCode = async (userId) => {
+  try {
+    const response = await axiosInstance.post(`/userAuth/resendCode/${userId}`);
+    console.log("resend code Response: ", response);
+    return response;
+  } catch (err) {
+    console.log("Err 12: ", err.response);
+    return err.response;
+  }
+};
+
+const forgotPasswordRequest = async (payload) => {
+  try {
+    console.log("Payload: ", payload);
+    const response = await axiosInstance.post(
+      "/userAuth/forgotPassword",
+      payload
+    );
+    console.log("Forgot Password Response: ", response);
+    return response;
+  } catch (err) {
+    console.log("Err 12: ", err.response);
+    return err.response;
+  }
+};
+
+const resetPassword = async (payload) => {
+  try {
+    console.log("Payload: ", payload);
+    const response = await axiosInstance.post(
+      "/userAuth/resetPassword",
+      payload
+    );
+    console.log("Forgot Password Response: ", response);
+    return response;
+  } catch (err) {
+    console.log("Err 12: ", err.response);
+    return err.response;
+  }
+};
+
 // Fetch user details: Fetches the authenticated user's info
 export const getUserDetails = async () => {
   const response = await axiosInstance.get("/auth/me");
@@ -57,4 +98,7 @@ export default {
   register,
   getUserDetails,
   verifyUser,
+  resendCode,
+  resetPassword,
+  forgotPasswordRequest,
 };

@@ -54,6 +54,31 @@ function VerifyUser() {
     }
   };
 
+  const handleResendCode = async (event) => {
+    event.preventDefault();
+    setError(null); // Reset error state
+
+    try {
+      const response = await authService.resendCode(userId);
+
+      if (response.status === 201 || response.status === 200) {
+        console.log("Resend Code successful:", response.data);
+        setShowAlertSuccess(true);
+      } else {
+        setError(
+          response?.data?.message || "Resend code failed. Please try again."
+        );
+        setShowAlert(true);
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      setError(
+        err.response?.data?.message || "Resend Code failed. Please try again."
+      );
+      setShowAlert(true);
+    }
+  };
+
   return (
     <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-12">
       <div className="relative bg-white px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
@@ -96,9 +121,8 @@ function VerifyUser() {
                     <p>{t("didntGetCode")}</p>
                     <a
                       className="flex flex-row items-center text-blue-600"
-                      href="http://"
-                      target="_blank"
                       rel="noopener noreferrer"
+                      onClick={handleResendCode}
                     >
                       {t("resendCode")}
                     </a>
