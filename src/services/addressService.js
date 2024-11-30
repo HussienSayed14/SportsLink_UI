@@ -2,23 +2,21 @@ import axiosInstance from "../api/axiosInstance";
 
 const getGovernorates = async () => {
   try {
-    console.log("Payload: ", payload);
     const response = await axiosInstance.get("/address/governorates");
     console.log("Governorates Response: ", response);
     return response;
   } catch (err) {
-    console.log("Err : ", err.response);
+    console.log("Governorate error : ", err);
     return err.response;
   }
 };
 
 const getCitiesInGovernorate = async (govId) => {
   try {
-    console.log("Payload: ", payload);
     const response = await axiosInstance.get(
       `/address/governorates/${govId}/cities`
     );
-    console.log("Governorates Response: ", response);
+    console.log("Cities Response: ", response);
     return response;
   } catch (err) {
     console.log("Err : ", err.response);
@@ -28,11 +26,10 @@ const getCitiesInGovernorate = async (govId) => {
 
 const getDistrictsInCity = async (cityId) => {
   try {
-    console.log("Payload: ", payload);
     const response = await axiosInstance.get(
       `/address/cities/${cityId}/districts`
     );
-    console.log("Governorates Response: ", response);
+    console.log("Districs Response: ", response);
     return response;
   } catch (err) {
     console.log("Err : ", err.response);
