@@ -22,6 +22,7 @@ function ResetPassword() {
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
   const { setLoading } = useUser(); // Access the user context
+  const [responeMessage, setResponseMessage] = useState(null);
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -50,6 +51,7 @@ function ResetPassword() {
 
       if (response.status === 201 || response.status === 200) {
         console.log("Verififcation Successful successful:", response.data);
+        setResponseMessage(responeMessage?.data?.message);
         setShowAlertSuccess(true);
         setTimeout(() => {
           navigate("/login");
@@ -125,6 +127,15 @@ function ResetPassword() {
           </div>
         </form>
       </div>
+      {showAlert && (
+        <AlertError message={error} onClose={() => setShowAlert(false)} />
+      )}
+      {showAlertSuccess && (
+        <AlertSuccess
+          message={responeMessage}
+          onClose={() => setShowAlertSuccess(false)}
+        />
+      )}
     </div>
   );
 }

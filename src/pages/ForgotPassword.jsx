@@ -10,6 +10,7 @@ function ForgotPassword() {
   const { t } = useTranslation();
 
   const [error, setError] = useState(null);
+  const [responeMessage, setResponseMessage] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
   const { setLoading } = useUser(); // Access the user context
@@ -46,6 +47,7 @@ function ForgotPassword() {
 
       if (response.status === 201 || response.status === 200) {
         console.log("Verififcation Successful successful:", response.data);
+        setResponseMessage(responeMessage?.data?.message);
         setShowAlertSuccess(true);
       } else {
         setError(
@@ -131,7 +133,7 @@ function ForgotPassword() {
       )}
       {showAlertSuccess && (
         <AlertSuccess
-          message={t("userVirefied")}
+          message={responeMessage}
           onClose={() => setShowAlertSuccess(false)}
         />
       )}
