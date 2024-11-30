@@ -8,6 +8,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import VerifyUser from "../pages/VerifyUser";
 import LoadingDots from "../components/LoadingDots";
 import { useUser } from "../context/UserContext";
+import ForgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
 
 const AppRoutes = () => {
   const { loading } = useUser();
@@ -21,8 +23,9 @@ const AppRoutes = () => {
           <Route path="/" element={<Hero />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/verify" element={<VerifyUser />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route
             path="/dashboard"
             element={

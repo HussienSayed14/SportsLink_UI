@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import authService from "../services/authService";
 import { useUser } from "../context/UserContext";
+import { useNavigate } from "react-router";
 
 function Login() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
 
   const countryCodes = [
     { name: "Egypt", code: "+20" },
@@ -127,7 +129,7 @@ function Login() {
                 </label>
                 <div className="text-sm">
                   <a
-                    href="#"
+                    onClick={navigate("/forgot-password")}
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     {t("forgotPassword")}
@@ -160,7 +162,7 @@ function Login() {
           <p className="mt-10 text-center text-sm/6 text-gray-500">
             {t("notMember")}{" "}
             <a
-              href="#"
+              onClick={navigate("/register")}
               className="font-semibold text-indigo-600 hover:text-indigo-500"
             >
               {t("createAccount")}

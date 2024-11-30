@@ -7,7 +7,7 @@ import AlertError from "../components/AlertError";
 import AlertSuccess from "../components/AlertSuccess";
 import { useUser } from "../context/UserContext";
 
-function ForgotPassword() {
+function ResetPassword() {
   const { t } = useTranslation();
 
   const [error, setError] = useState(null);
@@ -140,4 +140,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default ResetPassword;

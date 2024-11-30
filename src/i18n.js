@@ -45,6 +45,8 @@ const resources = {
       didntGetCode: "Didn't receive Code?",
       enterCode: "Enter Code",
       userVirefied: "User Verified Successfuly",
+      forgotPasswordTitle: "Forgot Password?",
+      submit: "Submit",
     },
   },
   ar: {

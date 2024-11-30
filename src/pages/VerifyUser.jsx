@@ -5,6 +5,7 @@ import { useState } from "react";
 import authService from "../services/authService";
 import AlertError from "../components/AlertError";
 import AlertSuccess from "../components/AlertSuccess";
+import { useUser } from "../context/UserContext";
 
 function VerifyUser() {
   const { t } = useTranslation();
@@ -16,6 +17,7 @@ function VerifyUser() {
   const { userId, phoneNumber } = location.state || {};
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
+  const { setLoading } = useUser(); // Access the user context
 
   const handelCodeChange = (event) => {
     setCode(event.target.value);
@@ -26,6 +28,7 @@ function VerifyUser() {
     setError(null); // Reset error state
 
     try {
+      setLoading(true);
       const payload = {
         userId,
         code,
@@ -51,6 +54,8 @@ function VerifyUser() {
         err.response?.data?.message || "Registration failed. Please try again."
       );
       setShowAlert(true);
+    } finally {
+      setLoading(false);
     }
   };
 
