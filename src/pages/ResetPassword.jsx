@@ -51,7 +51,9 @@ function ResetPassword() {
       if (response.status === 201 || response.status === 200) {
         console.log("Verififcation Successful successful:", response.data);
         setShowAlertSuccess(true);
-        navigate("/login");
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
       } else {
         setError(
           response?.data?.message || "Verification failed. Please try again."
@@ -73,10 +75,7 @@ function ResetPassword() {
     <div className="flex flex-wrap justify-center items-center min-h-screen bg-indigo-50">
       <div className="w-full max-w-md mx-auto ">
         <div className="text-center mb-10 flex flex-col items-center justify-center">
-          <h1 className="text-xl font-semibold mb-2">Reset Your Password</h1>
-          <p className="text-gray-600">
-            Enter your new password below to regain access to your account.
-          </p>
+          <h1 className="text-xl font-semibold mb-2">{t("resetPassword")}</h1>
         </div>
         <form
           onSubmit={handleSubmit}
@@ -87,7 +86,7 @@ function ResetPassword() {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="newPassword"
             >
-              New Password
+              {t("newPassword")}
             </label>
             <input
               type="password"
@@ -104,7 +103,7 @@ function ResetPassword() {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="confirmNewPassword"
             >
-              Confirm New Password
+              {t("confirmNewPassword")}
             </label>
             <input
               type="password"
@@ -121,7 +120,7 @@ function ResetPassword() {
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
-              Submit
+              {t("submit")}
             </button>
           </div>
         </form>

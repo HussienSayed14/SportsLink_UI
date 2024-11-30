@@ -47,6 +47,9 @@ const resources = {
       userVirefied: "User Verified Successfuly",
       forgotPasswordTitle: "Forgot Password?",
       submit: "Submit",
+      resetPassword: "Reset your Password",
+      newPassword: "New Password",
+      confirmNewPassword: "Confirm New Password",
     },
   },
   ar: {
@@ -89,6 +92,11 @@ const resources = {
       didntGetCode: "لم يصلك الرمز؟",
       enterCode: "أدخل الرمز",
       userVirefied: "تم التحقق بتجاح",
+      forgotPasswordTitle: "نسيت كلمة المرور؟",
+      submit: "إرسال",
+      resetPassword: "إعادة تعيين كلمة المرور الخاصة بك",
+      newPassword: "كلمة مرور جديدة",
+      confirmNewPassword: "تأكيد كلمة المرور الجديدة",
     },
   },
 };
