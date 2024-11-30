@@ -5,8 +5,11 @@ import {
   CurrencyDollarIcon,
 } from "@heroicons/react/24/outline";
 import Footer from "../components/Footer";
-
+import { useUser } from "../context/UserContext";
+import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
+
 const features = [
   {
     nameKey: "function1Title",
@@ -32,6 +35,16 @@ const features = [
 
 export default function Hero() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+
+  const { isAuthenticated } = useUser(); // Access the user context
+
+  // If user is authenticated, navigate him to the dashboard page
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   return (
     <div>
