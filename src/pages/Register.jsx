@@ -30,11 +30,8 @@ function Register() {
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [selectedGovernorateId, setSelectedGovernorateId] = useState(null);
-  const [selectedGovernorateName, setSelectedGovernorateName] = useState("");
   const [selectedCityId, setSelectedCityId] = useState(null);
-  const [selectedCityName, setSelectedCityName] = useState("");
   const [selectedDistrictId, setSelectedDistrictId] = useState(null);
-  const [selectedDistrictName, setSelectedDistrictName] = useState("");
 
   // Fetch governorates on mount
   useEffect(() => {
@@ -59,7 +56,6 @@ function Register() {
         );
         setCities(response.data);
         setSelectedCityId(null);
-        setSelectedCityName("");
         setDistricts([]); // Reset districts
       } catch (err) {
         console.error("Error fetching cities:", err);
@@ -78,7 +74,6 @@ function Register() {
         );
         setDistricts(response.data);
         setSelectedDistrictId(null);
-        setSelectedDistrictName("");
       } catch (err) {
         console.error("Error fetching districts:", err);
       }
@@ -197,7 +192,7 @@ function Register() {
                   onChange={(e) => setSelectedCountry(e.target.value)}
                   className="border border-gray-300 rounded-l-md px-4 py-2 bg-gray-50 focus:outline-none focus:ring focus:ring-indigo-500"
                 >
-                  <option value="+20">Egypt (+20)</option>
+                  <option value="+20">(مصر)Egypt (+20)</option>
                   <option value="+1">United States (+1)</option>
                   <option value="+44">United Kingdom (+44)</option>
                 </select>
@@ -246,7 +241,6 @@ function Register() {
                     (g) => g.id === parseInt(e.target.value)
                   );
                   setSelectedGovernorateId(selected?.id || null);
-                  setSelectedGovernorateName(selected?.name || "");
                 }}
                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               >
@@ -275,7 +269,6 @@ function Register() {
                     (c) => c.id === parseInt(e.target.value)
                   );
                   setSelectedCityId(selected?.id || null);
-                  setSelectedCityName(selected?.name || "");
                 }}
                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               >
@@ -304,7 +297,6 @@ function Register() {
                     (d) => d.id === parseInt(e.target.value)
                   );
                   setSelectedDistrictId(selected?.id || null);
-                  setSelectedDistrictName(selected?.name || "");
                 }}
                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               >
