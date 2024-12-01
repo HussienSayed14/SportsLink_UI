@@ -19,7 +19,7 @@ const login = async (phone, countryCode, password) => {
 
 const register = async (payload) => {
   try {
-    console.log("Payload: ", payload);
+    console.log("Register Payload: ", payload);
     const response = await axiosInstance.post("/userAuth/signUp", payload);
     console.log("Register Response: ", response);
     return response;
