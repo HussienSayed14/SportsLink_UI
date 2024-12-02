@@ -10,6 +10,7 @@ import LoadingDots from "../components/LoadingDots";
 import { useUser } from "../context/UserContext";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
+import SearchFields from "../pages/SearchFields";
 
 const AppRoutes = () => {
   const { loading } = useUser();
@@ -26,6 +27,7 @@ const AppRoutes = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/verify" element={<VerifyUser />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/search" element={<SearchFields />} />
           <Route
             path="/dashboard"
             element={
