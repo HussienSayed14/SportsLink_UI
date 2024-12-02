@@ -27,9 +27,6 @@ const SearchFields = () => {
   // Handle form submission
   const handleSearch = (e) => {
     e.preventDefault();
-    // Navigate to results page with filters as query parameters
-    const queryParams = new URLSearchParams(filters).toString();
-    navigate(`/search-results?${queryParams}`);
   };
 
   return (
@@ -37,12 +34,14 @@ const SearchFields = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Page Heading */}
         <h1 className="text-3xl font-bold text-gray-800 text-center mb-8">
-          Search for Fields
+          {t("searchFields")}
         </h1>
 
         {/* Filters Section */}
         <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">Filters</h2>
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">
+            {t("filters")}
+          </h2>
           <form
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
             onSubmit={handleSearch}
@@ -53,7 +52,7 @@ const SearchFields = () => {
                 htmlFor="fieldName"
                 className="block text-sm font-medium text-gray-600"
               >
-                Field Name
+                {t("fieldName")}
               </label>
               <input
                 type="text"
@@ -61,7 +60,7 @@ const SearchFields = () => {
                 name="fieldName"
                 value={filters.fieldName}
                 onChange={handleInputChange}
-                placeholder="Enter field name"
+                placeholder={t("enterFieldName")}
                 className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200"
               />
             </div>
@@ -72,7 +71,7 @@ const SearchFields = () => {
                 htmlFor="governorate"
                 className="block text-sm font-medium text-gray-600"
               >
-                Governorate
+                {t("governorate")}
               </label>
               <select
                 id="governorate"
@@ -82,8 +81,6 @@ const SearchFields = () => {
                 className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200"
               >
                 <option value="">Select Governorate</option>
-                <option value="Cairo">Cairo</option>
-                <option value="Giza">Giza</option>
               </select>
             </div>
 
@@ -93,7 +90,7 @@ const SearchFields = () => {
                 htmlFor="city"
                 className="block text-sm font-medium text-gray-600"
               >
-                City
+                {t("city")}
               </label>
               <select
                 id="city"
@@ -114,7 +111,7 @@ const SearchFields = () => {
                 htmlFor="district"
                 className="block text-sm font-medium text-gray-600"
               >
-                District
+                {t("district")}
               </label>
               <select
                 id="district"
@@ -135,7 +132,7 @@ const SearchFields = () => {
                 htmlFor="minPrice"
                 className="block text-sm font-medium text-gray-600"
               >
-                Min Price
+                {t("minPrice")}
               </label>
               <input
                 type="number"
@@ -143,7 +140,7 @@ const SearchFields = () => {
                 name="minPrice"
                 value={filters.minPrice}
                 onChange={handleInputChange}
-                placeholder="Enter minimum price"
+                placeholder={t("enterMinPrice")}
                 className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200"
               />
             </div>
@@ -154,7 +151,7 @@ const SearchFields = () => {
                 htmlFor="maxPrice"
                 className="block text-sm font-medium text-gray-600"
               >
-                Max Price
+                {t("maxPrice")}
               </label>
               <input
                 type="number"
@@ -162,7 +159,7 @@ const SearchFields = () => {
                 name="maxPrice"
                 value={filters.maxPrice}
                 onChange={handleInputChange}
-                placeholder="Enter maximum price"
+                placeholder={t("enterMaxPrice")}
                 className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200"
               />
             </div>
@@ -173,7 +170,7 @@ const SearchFields = () => {
                 type="submit"
                 className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-500 focus:outline-none focus:ring focus:ring-indigo-300"
               >
-                Search
+                {t("search")}
               </button>
             </div>
           </form>
