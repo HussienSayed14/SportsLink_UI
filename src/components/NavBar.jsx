@@ -15,10 +15,9 @@ import { Link } from "react-router";
 import { useUser } from "../context/UserContext";
 
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
+  { name: "Search Fields", href: "#", current: true },
+  { name: "Followed Fields", href: "#", current: false },
+  { name: "Profile", href: "#", current: false },
 ];
 
 function classNames(...classes) {
