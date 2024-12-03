@@ -18,7 +18,6 @@ function Register() {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("ROLE_USER"); // Default role
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
@@ -93,7 +92,6 @@ function Register() {
         password,
         fullName,
         email,
-        role,
         governorateId: selectedGovernorateId,
         cityId: selectedCityId,
         districtId: selectedDistrictId,
