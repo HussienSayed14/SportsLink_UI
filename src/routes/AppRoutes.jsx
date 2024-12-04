@@ -31,6 +31,7 @@ const AppRoutes = () => {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/search" element={<SearchFields />} />
           <Route path="/create-field" element={<CreateField />} />
+          <Route path="/search-result" element={<CreateField />} />
           <Route
             path="/dashboard"
             element={
