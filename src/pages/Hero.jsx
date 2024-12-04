@@ -42,7 +42,7 @@ export default function Hero() {
   // If user is authenticated, navigate him to the dashboard page
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/dashboard");
+      navigate("/search");
     }
   }, []);
 

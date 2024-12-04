@@ -69,7 +69,7 @@ function Login() {
         setUser(response.data.userDetails);
         setIsAuthenticated(true);
 
-        navigate("/dashboard");
+        navigate("/search");
       } else {
         setError(response?.data?.message || "Login failed. Please try again.");
         setShowAlert(true);

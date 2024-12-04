@@ -10,7 +10,7 @@ const OwnerRoute = ({ children }) => {
   }
 
   if (!user.role === "ROLE_OWNER" && !user.role === "ROLE_ADMIN") {
-    return <Navigate to="/dashboard" />; // Redirect users without admin or owner role
+    return <Navigate to="/search" />; // Redirect users without admin or owner role
   }
 
   return children;

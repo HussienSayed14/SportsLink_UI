@@ -29,22 +29,20 @@ const AppRoutes = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/verify" element={<VerifyUser />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/search" element={<SearchFields />} />
-          <Route path="/create-field" element={<CreateField />} />
-          <Route path="/search-result" element={<CreateField />} />
+
           <Route
-            path="/dashboard"
+            path="/search"
             element={
               <ProtectedRoute>
-                <Hero />
+                <SearchFields />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/create-fieldd"
+            path="/create-field"
             element={
               <OwnerRoute>
-                <Hero />
+                <CreateField />
               </OwnerRoute>
             }
           />
