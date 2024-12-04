@@ -1,6 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
+import fieldService from "../services/fieldService";
+import { useUser } from "../context/UserContext";
+import addressService from "../services/addressService";
 
 const CreateField = () => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { setLoading } = useUser();
   // State for form inputs
   const [formData, setFormData] = useState({
     fieldOwnerId: "",
@@ -10,25 +18,7 @@ const CreateField = () => {
     landMarkAr: "",
     hourPrice: "",
     googleMapsLocation: "",
-    governorateId: "",
-    cityId: "",
-    districtId: "",
   });
-
-  // State for dropdown options
-  const [governorates] = useState([
-    { id: 1, name: "Cairo" },
-    { id: 2, name: "Giza" },
-  ]);
-  const [cities] = useState([
-    { id: 1, name: "Nasr City", governorateId: 1 },
-    { id: 2, name: "Heliopolis", governorateId: 1 },
-    { id: 3, name: "6th of October", governorateId: 2 },
-  ]);
-  const [districts] = useState([
-    { id: 1, name: "District 1", cityId: 1 },
-    { id: 2, name: "District 2", cityId: 2 },
-  ]);
 
   // State for form errors
   const [errors, setErrors] = useState({});
@@ -38,6 +28,64 @@ const CreateField = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  // Dropdown States
+  const [governorates, setGovernorates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [selectedGovernorateId, setSelectedGovernorateId] = useState(null);
+  const [selectedCityId, setSelectedCityId] = useState(null);
+  const [selectedDistrictId, setSelectedDistrictId] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Fetch governorates on mount
+  useEffect(() => {
+    async function fetchGovernorates() {
+      try {
+        const response = await addressService.getGovernorates();
+        setGovernorates(response.data);
+      } catch (err) {
+        console.error("Error fetching governorates:", err);
+      }
+    }
+    fetchGovernorates();
+  }, []);
+
+  // Fetch cities when governorate changes
+  useEffect(() => {
+    async function fetchCities() {
+      if (!selectedGovernorateId) return;
+      try {
+        const response = await addressService.getCitiesInGovernorate(
+          selectedGovernorateId
+        );
+        setCities(response.data);
+        setSelectedCityId(null);
+        setDistricts([]); // Reset districts
+      } catch (err) {
+        console.error("Error fetching cities:", err);
+      }
+    }
+    fetchCities();
+  }, [selectedGovernorateId]);
+
+  // Fetch districts when city changes
+  useEffect(() => {
+    async function fetchDistricts() {
+      if (!selectedCityId) return;
+      try {
+        const response = await addressService.getDistrictsInCity(
+          selectedCityId
+        );
+        setDistricts(response.data);
+        setSelectedDistrictId(null);
+      } catch (err) {
+        console.error("Error fetching districts:", err);
+      }
+    }
+    fetchDistricts();
+  }, [selectedCityId]);
 
   // Form validation
   const validateForm = () => {
@@ -235,17 +283,22 @@ const CreateField = () => {
           {/* Governorate ID */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-              Governorate
+              {t("governorate")}
             </label>
             <select
-              name="governorateId"
-              value={formData.governorateId}
-              onChange={handleChange}
+              id="governorate"
+              value={selectedGovernorateId || ""}
+              onChange={(e) => {
+                const selected = governorates.find(
+                  (g) => g.id === parseInt(e.target.value)
+                );
+                setSelectedGovernorateId(selected?.id || null);
+              }}
               className={`w-full mt-1 p-2 border rounded-md focus:ring focus:ring-indigo-200 ${
                 errors.governorateId ? "border-red-500" : "border-gray-300"
               }`}
             >
-              <option value="">Select Governorate</option>
+              <option value="">{t("selectGovernorate")}</option>
               {governorates.map((gov) => (
                 <option key={gov.id} value={gov.id}>
                   {gov.name}
@@ -262,27 +315,27 @@ const CreateField = () => {
           {/* City ID */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-              City
+              {t("city")}
             </label>
             <select
-              name="cityId"
-              value={formData.cityId}
-              onChange={handleChange}
+              id="city"
+              value={selectedCityId || ""}
+              onChange={(e) => {
+                const selected = cities.find(
+                  (c) => c.id === parseInt(e.target.value)
+                );
+                setSelectedCityId(selected?.id || null);
+              }}
               className={`w-full mt-1 p-2 border rounded-md focus:ring focus:ring-indigo-200 ${
                 errors.cityId ? "border-red-500" : "border-gray-300"
               }`}
             >
-              <option value="">Select City</option>
-              {cities
-                .filter(
-                  (city) =>
-                    city.governorateId === parseInt(formData.governorateId)
-                )
-                .map((city) => (
-                  <option key={city.id} value={city.id}>
-                    {city.name}
-                  </option>
-                ))}
+              <option value="">{t("selectCity")}</option>
+              {cities.map((city) => (
+                <option key={city.id} value={city.id}>
+                  {city.name}
+                </option>
+              ))}
             </select>
             {errors.cityId && (
               <p className="text-red-500 text-sm mt-1">{errors.cityId}</p>
@@ -292,24 +345,25 @@ const CreateField = () => {
           {/* District ID */}
           <div>
             <label className="block text-sm font-medium text-gray-600">
-              District
+              {t("district")}
             </label>
             <select
-              name="districtId"
-              value={formData.districtId}
-              onChange={handleChange}
+              id="district"
+              value={selectedDistrictId || ""}
+              onChange={(e) => {
+                const selected = districts.find(
+                  (d) => d.id === parseInt(e.target.value)
+                );
+                setSelectedDistrictId(selected?.id || null);
+              }}
               className="w-full mt-1 p-2 border rounded-md focus:ring focus:ring-indigo-200"
             >
-              <option value="">Select District</option>
-              {districts
-                .filter(
-                  (district) => district.cityId === parseInt(formData.cityId)
-                )
-                .map((district) => (
-                  <option key={district.id} value={district.id}>
-                    {district.name}
-                  </option>
-                ))}
+              <option value="">{t("selectDistrict")}</option>
+              {districts.map((district) => (
+                <option key={district.id} value={district.id}>
+                  {district.name}
+                </option>
+              ))}
             </select>
           </div>
 

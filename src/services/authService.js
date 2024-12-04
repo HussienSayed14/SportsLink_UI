@@ -92,8 +92,6 @@ const getUserDetails = async () => {
     console.error("Get User details error", err);
     return err.response;
   }
-
-  return response.data;
 };
 
 // Logout function: Clears the user's session
