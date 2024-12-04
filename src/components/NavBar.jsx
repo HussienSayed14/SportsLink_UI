@@ -12,7 +12,9 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "../assets/logo_transparent.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import { useUser } from "../context/UserContext";
+import { useUser, setLoading } from "../context/UserContext";
+import authService from "../services/authService";
+import { useNavigate } from "react-router";
 
 const navigation = [
   { name: "Search Fields", href: "#", current: true },
@@ -25,13 +27,29 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
-  const { isAuthenticated } = useUser();
+  const { isAuthenticated, setIsAuthenticated, setUser, setLoading } =
+    useUser();
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
 
   const changeLanguage = (language) => {
     i18n.changeLanguage(language);
     // document.body.dir = language === "ar" ? "rtl" : "ltr"; // Update text direction
     localStorage.setItem("i18nextLng", language); // Persist language
+  };
+
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
+      await authService.logout();
+      setUser(null);
+      setIsAuthenticated(false);
+      useNavigate("/");
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -137,7 +155,7 @@ export default function NavBar() {
                     </MenuItem>
                     <MenuItem>
                       <a
-                        href="#"
+                        onClick={handleLogout}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         Sign out
