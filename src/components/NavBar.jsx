@@ -12,7 +12,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "../assets/logo_transparent.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import { useUser, setLoading } from "../context/UserContext";
+import { useUser } from "../context/UserContext";
 import authService from "../services/authService";
 import { useNavigate } from "react-router";
 

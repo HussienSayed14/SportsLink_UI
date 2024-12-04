@@ -96,7 +96,7 @@ const getUserDetails = async () => {
 
 // Logout function: Clears the user's session
 const logout = async () => {
-  await axiosInstance.post("/auth/logout");
+  await axiosInstance.post("/user/logout");
 };
 
 export default {
