@@ -10,9 +10,6 @@ const OwnerRoute = ({ children }) => {
     return <LoadingDots />;
   }
 
-  console.log("User Data Owner: ", user);
-  console.log("Is authenticated: ", isAuthenticated);
-
   if (!isAuthenticated) {
     return <Navigate to="/" />; // Redirect unauthenticated users
   }

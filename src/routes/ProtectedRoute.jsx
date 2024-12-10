@@ -10,10 +10,6 @@ const ProtectedRoute = ({ children }) => {
     return <LoadingDots />;
   }
 
-  console.log("User", user);
-
-  console.log("Is Authenticated: ", isAuthenticated);
-
   if (!isAuthenticated) {
     return <Navigate to="/" />; // Redirect unauthenticated users
   }

@@ -22,9 +22,9 @@ const SearchFields = () => {
   const [error, setError] = useState(null);
 
   const [filters, setFilters] = useState({
-    fieldName: "",
-    minPrice: "",
-    maxPrice: "",
+    fieldName: null,
+    minPrice: null,
+    maxPrice: null,
   });
 
   // Fetch governorates on mount

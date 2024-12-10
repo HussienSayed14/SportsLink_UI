@@ -89,8 +89,7 @@ const getUserDetails = async () => {
     console.log("get user details ", response);
     return response;
   } catch (err) {
-    console.error("Get User details error", err);
-    return err.response;
+    throw err;
   }
 };
 
