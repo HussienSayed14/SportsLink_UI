@@ -16,11 +16,12 @@ const createField = async (payload) => {
     const response = await axiosInstance.post("/fields/createField", payload);
     return response;
   } catch (err) {
-    console.error("Search Fields error : ", err);
+    console.error("Create field error : ", err);
     return err.response;
   }
 };
 
 export default {
   searchFields,
+  createField,
 };

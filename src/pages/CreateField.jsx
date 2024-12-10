@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import fieldService from "../services/fieldService";
 import { useUser } from "../context/UserContext";
 import addressService from "../services/addressService";
+import AlertError from "../components/AlertError";
+import AlertSuccess from "../components/AlertSuccess";
 
 const CreateField = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { setLoading } = useUser();
+
   // State for form inputs
   const [formData, setFormData] = useState({
-    fieldOwnerId: "",
+    fieldOwnerId: null,
     fieldNameEn: "",
     fieldNameAr: "",
     landMarkEn: "",
     landMarkAr: "",
     hourPrice: "",
     googleMapsLocation: "",
+    governorateId: null,
+    cityId: null,
+    districId: null,
   });
 
   // State for form errors
@@ -37,6 +41,9 @@ const CreateField = () => {
   const [selectedCityId, setSelectedCityId] = useState(null);
   const [selectedDistrictId, setSelectedDistrictId] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
+  const [showAlertSuccess, setShowAlertSuccess] = useState(false);
+  const [responseMessage, setResponseMessage] = useState(null);
+
   const [error, setError] = useState(null);
 
   // Fetch governorates on mount
@@ -116,20 +123,44 @@ const CreateField = () => {
     if (formData.googleMapsLocation.length > 255)
       newErrors.googleMapsLocation =
         "Google Maps location cannot exceed 255 characters.";
-    if (!formData.governorateId)
-      newErrors.governorateId = "Governorate ID is required.";
-    if (!formData.cityId) newErrors.cityId = "City ID is required.";
+    if (!selectedGovernorateId)
+      newErrors.governorateId = "Governorate is required.";
+    if (!selectedCityId) newErrors.cityId = "City is required.";
+
+    formData.governorateId = selectedGovernorateId;
+    formData.cityId = selectedCityId;
+    formData.districId = selectedDistrictId;
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      console.log("Form data submitted:", formData);
-      // Send data to the backend
+    try {
+      setLoading(true);
+      if (validateForm()) {
+        console.log("Form data submitted:", formData);
+        const payload = formData;
+        console.log("Payload: ", payload);
+        const response = await fieldService.createField(payload);
+        if (response.status === 201 || response.status === 200) {
+          console.log("Field Created:", response.data);
+          setResponseMessage(response.data.message);
+          setShowAlertSuccess(true);
+        } else {
+          console.error("create field failed:", response);
+          setError(response.data.message || "Something Wrong Happened");
+          setShowAlert(true);
+        }
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      setError(err.response?.data?.message || "Something Wrong Happened");
+      setShowAlert(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -228,7 +259,7 @@ const CreateField = () => {
             </label>
             <input
               type="text"
-              name="landMarkEn"
+              name="landMarkAr"
               value={formData.landMarkAr}
               onChange={handleChange}
               className={`w-full mt-1 p-2 border rounded-md focus:ring focus:ring-indigo-200 ${
@@ -371,12 +402,22 @@ const CreateField = () => {
           <div>
             <button
               type="submit"
+              onClick={handleSubmit}
               className="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-indigo-500 focus:ring focus:ring-indigo-300"
             >
               Submit
             </button>
           </div>
         </form>
+        {error && (
+          <AlertError message={error} onClose={() => setShowAlert(false)} />
+        )}
+        {showAlertSuccess && (
+          <AlertSuccess
+            message={responseMessage}
+            onClose={() => setShowAlertSuccess(false)}
+          />
+        )}
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import fieldService from "../services/fieldService";
 import { useUser } from "../context/UserContext";
 import addressService from "../services/addressService";
+import AlertError from "../components/AlertError";
 
 const SearchFields = () => {
   const { t } = useTranslation();
