@@ -20,6 +20,7 @@ const SearchFields = () => {
   const [selectedDistrictId, setSelectedDistrictId] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [error, setError] = useState(null);
+  const [fields, setFields] = useState([]);
 
   const [filters, setFilters] = useState({
     fieldName: null,
@@ -103,6 +104,7 @@ const SearchFields = () => {
         console.log("Search Fields successful:", response.data);
         setResponseMessage(response.data.message);
         setShowAlertSuccess(true);
+        setFields(response.data.fields);
         setTimeout(() => {
           navigate("/search-result", { state: response.data });
         }, 3000);
