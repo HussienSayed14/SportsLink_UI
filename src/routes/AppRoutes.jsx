@@ -13,6 +13,7 @@ import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
 import SearchFields from "../pages/SearchFields";
 import CreateField from "../pages/CreateField";
+import FieldSearchResult from "../pages/FieldSearchResult";
 
 const AppRoutes = () => {
   const { loading } = useUser();
@@ -35,6 +36,14 @@ const AppRoutes = () => {
             element={
               <ProtectedRoute>
                 <SearchFields />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/search/result"
+            element={
+              <ProtectedRoute>
+                <FieldSearchResult />
               </ProtectedRoute>
             }
           />

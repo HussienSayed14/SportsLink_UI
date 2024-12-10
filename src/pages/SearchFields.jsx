@@ -88,7 +88,6 @@ const SearchFields = () => {
     setLoading(true);
 
     try {
-      setLoading(true);
       const payload = {
         fieldName: filters.fieldName,
         minPrice: filters.minPrice,
@@ -101,13 +100,17 @@ const SearchFields = () => {
       const response = await fieldService.searchFields(payload);
 
       if (response.status === 201 || response.status === 200) {
-        console.log("Search Fields successful:", response.data);
-        setResponseMessage(response.data.message);
-        setShowAlertSuccess(true);
+        console.log("Search Fields successful:", response.data.fields);
         setFields(response.data.fields);
-        setTimeout(() => {
-          navigate("/search-result", { state: response.data });
-        }, 3000);
+        if (response.data.fields.length == 0) {
+          setError("There are no fields with this search values.");
+          setShowAlert(true);
+        } else {
+          console.log("Navigating");
+          setTimeout(() => {
+            navigate("/search/result", { state: response.data.fields });
+          }, 3000);
+        }
       } else {
         console.error("search field failed:", response);
         setError(response.data.message || "Something Wrong Happened");
@@ -283,7 +286,7 @@ const SearchFields = () => {
             {/* Search Button */}
             <div className="col-span-1 md:col-span-2 lg:col-span-3 text-right">
               <button
-                type="submit"
+                onClick={handleSearch}
                 className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-500 focus:outline-none focus:ring focus:ring-indigo-300"
               >
                 {t("search")}
