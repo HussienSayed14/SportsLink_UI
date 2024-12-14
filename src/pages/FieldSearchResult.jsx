@@ -1,41 +1,34 @@
 import React from "react";
 import { useLocation } from "react-router";
-import logo from "../assets/logo_transparent.png";
-
+import FieldCard from "../components/FieldCard";
 function FieldSearchResult() {
   const location = useLocation();
 
   const fields = location.state || [];
-  console.log("Fields: ", fields);
   return (
-    <div>
-      <h1>Fields Search Results</h1>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-          <img src={logo} alt="Field Image" class="w-full h-40 object-cover" />
-          <div class="p-4">
-            <h2 class="text-lg font-bold text-gray-800">Field Name</h2>
-            <p class="text-sm text-gray-500">Location: City, Area</p>
-            <p class="text-sm text-gray-500">Landmark: Famous Landmark</p>
-            <div class="flex justify-between items-center mt-4">
-              <p class="text-green-500 font-bold">$50/hour</p>
-              <p class="text-yellow-400 flex items-center">
-                <span>⭐</span> 4.5
-              </p>
+    <div className="min-h-screen bg-gray-100">
+      {/* Header Section */}
+      <header className="bg-white border-b border-gray-200 py-6 shadow-sm">
+        <div className="container mx-auto text-center">
+          <h1 className="text-3xl font-bold text-gray-800">
+            Fields Search Results
+          </h1>
+          <p className="text-sm text-gray-500 mt-2">
+            Discover the best fields available for booking near you!
+          </p>
+        </div>
+      </header>
+
+      {/* Cards Section */}
+      <div className="container mx-auto p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {fields.map((item, index) => (
+            <div key={item.fieldId} onClick={() => alert(`${item.fieldName}`)}>
+              <FieldCard field={item} />
             </div>
-            <div class="flex justify-between items-center mt-2 text-sm text-gray-500">
-              <p>Followers: 1.2k</p>
-              <p>Address: Street Name</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
-
-      {/* <ul>
-        {fields.map((item, index) => (
-          <li key={index}>{item.fieldName}</li>
-        ))}
-      </ul> */}
     </div>
   );
 }
