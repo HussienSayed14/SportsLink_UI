@@ -10,6 +10,12 @@ function FieldDetails() {
 
   const images = [field1, field2, field3];
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  const handleFollowToggle = () => {
+    setIsFollowing((prevState) => !prevState);
+    console.log(isFollowing ? "Unfollowed" : "Followed");
+  };
 
   const handlePrevSlide = () => {
     setCurrentSlide((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -105,31 +111,73 @@ function FieldDetails() {
           </div>
           {/* Field Details and Reviews */}
           <div className="lg:col-span-2">
-            {/* Field Details */}
-            <h2 className="text-2xl font-bold text-gray-800">
-              {field.fieldName}
-            </h2>
-            <div className="flex flex-wrap gap-4 mt-4">
-              <p className="text-gray-800 text-xl font-bold">
-                ${field.hourPrice}
-              </p>
-              <p className="text-gray-400 text-sm">
-                Followers: {field.followersCount}
-              </p>
-              <p className="text-yellow-400 flex items-center">
-                ⭐ {field.averageRating.toFixed(1)}
-              </p>
-            </div>
+            <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+              {/* Field Header */}
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-3xl font-bold text-gray-800">
+                  {field.fieldName}
+                </h2>
+                <button
+                  onClick={handleFollowToggle}
+                  className={`btn ${
+                    isFollowing ? "btn-error" : "btn-primary"
+                  } btn-sm`}
+                >
+                  {isFollowing ? "Unfollow" : "Follow"}
+                </button>
+              </div>
 
-            <div className="mt-8">
-              <h3 className="text-xl font-bold text-gray-800">
-                About the Field
-              </h3>
-              <ul className="space-y-3 list-disc mt-4 pl-4 text-sm text-gray-800">
-                <li>Located at {field.googleMapsLocation}</li>
-                <li>Landmark: {field.landMark}</li>
-                <li>Price per hour: ${field.hourPrice}</li>
-              </ul>
+              {/* Price and Stats */}
+              <div className="flex flex-wrap gap-6 items-center mt-4">
+                <div className="flex items-center space-x-2">
+                  <span className="text-2xl font-bold text-green-600">
+                    ${field.hourPrice}
+                  </span>
+                  <span className="text-sm text-gray-400">(per hour)</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <p className="text-sm font-medium text-gray-600">
+                    <span className="badge badge-outline badge-primary">
+                      Followers: {field.followersCount}
+                    </span>
+                  </p>
+                </div>
+                <div className="flex items-center space-x-2 text-yellow-400">
+                  <span className="text-lg">⭐</span>
+                  <span className="text-lg font-bold">
+                    {field.averageRating.toFixed(1)}
+                  </span>
+                  <span className="text-sm text-gray-500 ml-2">
+                    ({reviews.length}){" "}
+                  </span>
+                </div>
+              </div>
+
+              {/* Field Overview */}
+              <div className="mt-8">
+                <h3 className="text-xl font-bold text-gray-800">
+                  Field Overview
+                </h3>
+                <ul className="space-y-2 mt-4 text-gray-600 text-sm">
+                  <li>
+                    <span className="font-semibold">Google Maps:</span>{" "}
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                        field.googleMapsLocation
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      {field.googleMapsLocation}
+                    </a>
+                  </li>
+                  <li>
+                    <span className="font-semibold">Landmark:</span>{" "}
+                    {field.landMark}
+                  </li>
+                </ul>
+              </div>
             </div>
 
             {/* Add Review Section */}
