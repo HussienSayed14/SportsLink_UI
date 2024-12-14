@@ -1,8 +1,12 @@
 import React from "react";
 import { useLocation } from "react-router";
 import FieldCard from "../components/FieldCard";
+import { useNavigate } from "react-router";
+
 function FieldSearchResult() {
   const location = useLocation();
+
+  const navigate = useNavigate();
 
   const fields = location.state || [];
   return (
@@ -23,7 +27,12 @@ function FieldSearchResult() {
       <div className="container mx-auto p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {fields.map((item, index) => (
-            <div key={item.fieldId} onClick={() => alert(`${item.fieldName}`)}>
+            <div
+              key={item.fieldId}
+              onClick={() => {
+                navigate("/search/result/field", { state: item });
+              }}
+            >
               <FieldCard field={item} />
             </div>
           ))}
