@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import reviewService from "../services/reviewService";
 import field1 from "../assets/field.jpg";
 import field2 from "../assets/field1.jpg";
 import field3 from "../assets/field2.jpg";
+import axios from "axios";
 
 function FieldDetails() {
   const location = useLocation();
@@ -11,6 +13,9 @@ function FieldDetails() {
   const images = [field1, field2, field3];
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [newRating, setNewRating] = useState(0);
 
   const handleFollowToggle = () => {
     setIsFollowing((prevState) => !prevState);
@@ -24,24 +29,6 @@ function FieldDetails() {
   const handleNextSlide = () => {
     setCurrentSlide((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
-
-  const [reviews, setReviews] = useState([
-    {
-      name: "John Doe",
-      comment: "Great place to play with friends. Loved the environment!",
-      rating: 5,
-      time: "2 mins ago",
-    },
-    {
-      name: "Jane Smith",
-      comment: "Decent facilities but the parking was a hassle.",
-      rating: 4,
-      time: "10 mins ago",
-    },
-  ]);
-
-  const [newComment, setNewComment] = useState("");
-  const [newRating, setNewRating] = useState(0);
 
   const handleAddComment = () => {
     if (!newComment || newRating < 1) {
@@ -60,6 +47,13 @@ function FieldDetails() {
     setNewComment("");
     setNewRating(0);
   };
+
+  useEffect(async () => {
+    const respone = await reviewService.getFieldReviews(field.fieldId);
+    if (respone.status === 200 || respone.status === 201) {
+      setReviews(respone?.data?.reviewsList);
+    }
+  }, [reviews]);
 
   return (
     <div className="font-sans">
