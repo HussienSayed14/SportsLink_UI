@@ -30,30 +30,34 @@ function FieldDetails() {
     setCurrentSlide((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
-  const handleAddComment = () => {
+  const handleAddComment = async () => {
     if (!newComment || newRating < 1) {
       alert("Please provide a valid comment and rating.");
       return;
     }
 
-    const newReview = {
-      name: "Guest User",
-      comment: newComment,
+    const payload = {
+      fieldId: field.fieldId,
       rating: newRating,
-      time: "Just now",
+      comment: newComment,
     };
 
+    const response = await reviewService.createReview(payload);
+
+    if (response.status === 200 || response.status === 201) {
+      setReviews(response?.data?.reviewsList);
+    }
     setReviews((prevReviews) => [newReview, ...prevReviews]);
     setNewComment("");
     setNewRating(0);
   };
 
   useEffect(async () => {
-    const respone = await reviewService.getFieldReviews(field.fieldId);
-    if (respone.status === 200 || respone.status === 201) {
-      setReviews(respone?.data?.reviewsList);
+    const response = await reviewService.getFieldReviews(field.fieldId);
+    if (response.status === 200 || response.status === 201) {
+      setReviews(response?.data?.reviewsList);
     }
-  }, [reviews]);
+  }, []);
 
   return (
     <div className="font-sans">
