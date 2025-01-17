@@ -19,7 +19,6 @@ function FieldDetails() {
 
   const handleFollowToggle = () => {
     setIsFollowing((prevState) => !prevState);
-    console.log(isFollowing ? "Unfollowed" : "Followed");
   };
 
   const handlePrevSlide = () => {
@@ -45,26 +44,24 @@ function FieldDetails() {
     const response = await reviewService.createReview(payload);
 
     if (response.status === 200 || response.status === 201) {
-      setReviews((prevReviews) => [response?.data, ...prevReviews]);
-      setReviews(response?.data?.reviewsList);
+      await fetchReviews();
     }
-    setReviews((prevReviews) => [newReview, ...prevReviews]);
     setNewComment("");
     setNewRating(0);
   };
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await reviewService.getFieldReviews(field?.fieldId);
-        if (response.status === 200 || response.status === 201) {
-          setReviews(response?.data?.reviewsList || []);
-        }
-      } catch (error) {
-        console.error("Failed to fetch reviews:", error);
+  const fetchReviews = async () => {
+    try {
+      const response = await reviewService.getFieldReviews(field?.fieldId);
+      if (response.status === 200 || response.status === 201) {
+        setReviews(response?.data?.reviewsList || []);
       }
-    };
+    } catch (error) {
+      console.error("Failed to fetch reviews:", error);
+    }
+  };
 
+  useEffect(() => {
     if (field?.fieldId) {
       fetchReviews();
     }
