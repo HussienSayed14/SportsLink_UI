@@ -45,6 +45,7 @@ function FieldDetails() {
     const response = await reviewService.createReview(payload);
 
     if (response.status === 200 || response.status === 201) {
+      setReviews((prevReviews) => [response?.data, ...prevReviews]);
       setReviews(response?.data?.reviewsList);
     }
     setReviews((prevReviews) => [newReview, ...prevReviews]);
