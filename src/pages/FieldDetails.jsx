@@ -4,6 +4,7 @@ import reviewService from "../services/reviewService";
 import field1 from "../assets/field.jpg";
 import field2 from "../assets/field1.jpg";
 import field3 from "../assets/field2.jpg";
+import { formatTimestamp } from "../utils/dateUtils";
 
 function FieldDetails() {
   const location = useLocation();
@@ -218,26 +219,53 @@ function FieldDetails() {
 
             {/* Reviews Section */}
             <div className="mt-8">
-              <h3 className="text-xl font-bold text-gray-800">Reviews</h3>
-              {reviews.map((review, index) => (
-                <div key={index} className="flex items-start mt-8">
-                  <img
-                    src="https://via.placeholder.com/50"
-                    className="w-12 h-12 rounded-full border-2 border-white"
-                    alt="User Avatar"
-                  />
-                  <div className="ml-3">
-                    <h4 className="text-sm font-bold">{review.name}</h4>
-                    <div className="flex space-x-1 mt-1">
-                      <p className="text-yellow-400">⭐ {review.rating}</p>
-                      <p className="text-xs !ml-2 font-semibold">
-                        {review.time}
-                      </p>
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">Reviews</h3>
+              <div className="space-y-6">
+                {reviews.map((review, index) => (
+                  <div
+                    key={index}
+                    className="p-4 bg-white rounded-lg shadow-md border border-gray-200"
+                  >
+                    {/* Reviewer Info */}
+                    <div className="flex items-center space-x-4">
+                      <div>
+                        <h4 className="text-lg font-semibold text-gray-700">
+                          {review.name}
+                        </h4>
+                        <p className="text-sm text-gray-500">
+                          {formatTimestamp(review.timestamp)}
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-xs mt-4">{review.comment}</p>
+
+                    {/* Rating */}
+                    <div className="mt-4 flex items-center">
+                      <div className="flex space-x-1">
+                        {Array.from({ length: 5 }, (_, i) => (
+                          <span
+                            key={i}
+                            className={`text-xl ${
+                              i < review.rating
+                                ? "text-yellow-400"
+                                : "text-gray-300"
+                            }`}
+                          >
+                            ★
+                          </span>
+                        ))}
+                      </div>
+                      <span className="ml-2 text-gray-600 font-medium">
+                        {review.rating}/5
+                      </span>
+                    </div>
+
+                    {/* Comment */}
+                    <p className="mt-4 text-gray-700 text-base">
+                      {review.text}
+                    </p>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
