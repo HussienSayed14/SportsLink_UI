@@ -4,7 +4,6 @@ import reviewService from "../services/reviewService";
 import field1 from "../assets/field.jpg";
 import field2 from "../assets/field1.jpg";
 import field3 from "../assets/field2.jpg";
-import axios from "axios";
 
 function FieldDetails() {
   const location = useLocation();
@@ -53,10 +52,20 @@ function FieldDetails() {
     setNewRating(0);
   };
 
-  useEffect(async () => {
-    const response = await reviewService.getFieldReviews(field.fieldId);
-    if (response.status === 200 || response.status === 201) {
-      setReviews(response?.data?.reviewsList);
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await reviewService.getFieldReviews(field?.fieldId);
+        if (response.status === 200 || response.status === 201) {
+          setReviews(response?.data?.reviewsList || []);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reviews:", error);
+      }
+    };
+
+    if (field?.fieldId) {
+      fetchReviews();
     }
   }, []);
 
