@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import reviewService from "../services/reviewService";
+import fieldService from "../services/fieldService";
 import field1 from "../assets/field.jpg";
 import field2 from "../assets/field1.jpg";
 import field3 from "../assets/field2.jpg";
@@ -16,8 +17,18 @@ function FieldDetails() {
   const [reviews, setReviews] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [newRating, setNewRating] = useState(0);
+  const [followersCount, setFollowersCount] = useState(field.followersCount);
 
   const handleFollowToggle = () => {
+    if (isFollowing) {
+      fieldService.unFollowField(field?.fieldId).then(() => {
+        setFollowersCount(followersCount - 1);
+      });
+    } else {
+      fieldService.followField(field?.fieldId).then(() => {
+        setFollowersCount(followersCount + 1);
+      });
+    }
     setIsFollowing((prevState) => !prevState);
   };
 
@@ -51,19 +62,23 @@ function FieldDetails() {
   };
 
   const fetchReviews = async () => {
-    try {
-      const response = await reviewService.getFieldReviews(field?.fieldId);
-      if (response.status === 200 || response.status === 201) {
-        setReviews(response?.data?.reviewsList || []);
-      }
-    } catch (error) {
-      console.error("Failed to fetch reviews:", error);
+    const response = await reviewService.getFieldReviews(field?.fieldId);
+    if (response.status === 200 || response.status === 201) {
+      setReviews(response?.data?.reviewsList || []);
+    }
+  };
+
+  const isFolllwingField = async () => {
+    const response = await fieldService.isFollowingField(field?.fieldId);
+    if (response.status === 200 || response.status === 201) {
+      setIsFollowing(response?.data || false);
     }
   };
 
   useEffect(() => {
     if (field?.fieldId) {
       fetchReviews();
+      isFolllwingField();
     }
   }, []);
 
@@ -144,7 +159,7 @@ function FieldDetails() {
                 <div className="flex items-center space-x-2">
                   <p className="text-sm font-medium text-gray-600">
                     <span className="badge badge-outline badge-primary">
-                      Followers: {field.followersCount}
+                      Followers: {followersCount}
                     </span>
                   </p>
                 </div>

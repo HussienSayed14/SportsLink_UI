@@ -20,7 +20,43 @@ const createField = async (payload) => {
   }
 };
 
+const isFollowingField = async (fieldId) => {
+  try {
+    const response = await axiosInstance.get(`/fields/is-following/${fieldId}`);
+    console.log("is following reponse: ", response);
+    return response;
+  } catch (err) {
+    console.error("is following field error : ", err);
+    return err.response;
+  }
+};
+
+const followField = async (fieldId) => {
+  try {
+    const response = await axiosInstance.post(`/fields/followField/${fieldId}`);
+    return response;
+  } catch (err) {
+    console.error("follow field error : ", err);
+    return err.response;
+  }
+};
+
+const unFollowField = async (fieldId) => {
+  try {
+    const response = await axiosInstance.post(
+      `/fields/unfollowField/${fieldId}`
+    );
+    return response;
+  } catch (err) {
+    console.error("unfollow field error : ", err);
+    return err.response;
+  }
+};
+
 export default {
   searchFields,
   createField,
+  isFollowingField,
+  unFollowField,
+  followField,
 };
